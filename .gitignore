@@ -42,3 +42,6 @@ dist/
 # PyInstaller
 *.manifest
 *.spec
+
+# Trained Models
+ticket_triage_model/
