@@ -12,6 +12,13 @@ import streamlit as st
 from triage.inference.predictor import TriagePredictor, validate_prediction_frame
 from triage.models.artifacts import read_metadata
 
+# Try importing the Transformer predictor (needs transformers + trained models)
+try:
+    from triage.inference.predictor_transformer import TransformerPredictor
+    TRANSFORMER_AVAILABLE = True
+except ImportError:
+    TRANSFORMER_AVAILABLE = False
+
 # ---------------------------------------------------------------------------
 # Page config & custom CSS
 # ---------------------------------------------------------------------------
@@ -329,14 +336,6 @@ def predictions_to_frame(source: pd.DataFrame, predictions: list[dict]) -> pd.Da
 
 
 # ---------------------------------------------------------------------------
-# Load predictor
-# ---------------------------------------------------------------------------
-@st.cache_resource
-def load_predictor() -> TriagePredictor:
-    return TriagePredictor()
-
-
-# ---------------------------------------------------------------------------
 # Hero header
 # ---------------------------------------------------------------------------
 st.markdown('<div class="hero-title">🎯 Ticket Triage</div>', unsafe_allow_html=True)
@@ -348,15 +347,59 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+
 # ---------------------------------------------------------------------------
-# Model loading
+# Load predictor (cached — one instance per backend choice)
 # ---------------------------------------------------------------------------
-try:
-    predictor = load_predictor()
-except FileNotFoundError:
-    st.error("⚠️ Model artifacts not found. Train them first:")
-    st.code("python scripts/train_all.py", language="powershell")
-    st.stop()
+@st.cache_resource
+def _load_baseline() -> TriagePredictor:
+    return TriagePredictor()
+
+
+@st.cache_resource
+def _load_transformer() -> "TransformerPredictor":
+    return TransformerPredictor()
+
+
+# ---------------------------------------------------------------------------
+# Sidebar — backend selector
+# ---------------------------------------------------------------------------
+with st.sidebar:
+    st.markdown("### ⚙️ Backend")
+    backend_options = ["🤖 DistilBERT (Transformer)", "📊 TF-IDF + LogReg (Baseline)"]
+    if not TRANSFORMER_AVAILABLE:
+        st.warning("`transformers` not installed. Using baseline only.")
+        _backend_choice = backend_options[1]
+    else:
+        _backend_choice = st.radio(
+            "Inference Engine",
+            options=backend_options,
+            index=0,
+            help="Switch between the fine-tuned Transformer and the classical baseline.",
+        )
+    st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+
+use_transformer = _backend_choice == backend_options[0]
+
+if use_transformer:
+    try:
+        predictor = _load_transformer()
+        active_backend_label = "DistilBERT fine-tuned (HuggingFace Transformers)"
+    except FileNotFoundError as _e:
+        st.error(
+            f"⚠️ Transformer models not found.\n\n"
+            "Train them first:\n"
+            "```\npython scripts/train_transformer.py --target all\n```"
+        )
+        st.stop()
+else:
+    try:
+        predictor = _load_baseline()
+        active_backend_label = "TF-IDF + Logistic Regression (Baseline)"
+    except FileNotFoundError:
+        st.error("⚠️ Baseline model artifacts not found. Train them first:")
+        st.code("python scripts/train_all.py", language="powershell")
+        st.stop()
 
 metadata = read_metadata()
 
@@ -364,11 +407,18 @@ metadata = read_metadata()
 # Sidebar — model info panel
 # ---------------------------------------------------------------------------
 with st.sidebar:
-    st.markdown("### 🧠 Model Info")
+    st.markdown("### 🧠 Active Model Info")
+    st.markdown(
+        f'<span class="model-badge">🔷 {active_backend_label}</span>',
+        unsafe_allow_html=True,
+    )
     st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 
+    # Choose the right metadata prefix
+    prefix = "transformer_" if use_transformer else ""
+
     for target in ["category", "priority", "intent"]:
-        info = metadata.get(target, {})
+        info = metadata.get(f"{prefix}{target}", metadata.get(target, {}))
         if not info:
             continue
         icon = {"category": "🏷️", "priority": "⚡", "intent": "🎯"}.get(target, "📊")
@@ -508,9 +558,8 @@ with tab_batch:
 # ---------------------------------------------------------------------------
 st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
 st.markdown(
-    '<div style="text-align:center; color:#64748b; font-size:0.78rem; padding:8px 0 24px;">'
-    "Support Ticket Triage System · v0.1.0 · "
-    "Baseline TF-IDF + Logistic Regression"
-    "</div>",
+    f'<div style="text-align:center; color:#64748b; font-size:0.78rem; padding:8px 0 24px;">'
+    f"Support Ticket Triage System · v1.0.0 · {active_backend_label}"
+    f"</div>",
     unsafe_allow_html=True,
 )
