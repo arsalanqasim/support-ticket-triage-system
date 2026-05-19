@@ -8,6 +8,7 @@ dataset/
 __pycache__/
 *.py[cod]
 *$py.class
+.pytest_cache/
 
 # Virtual environments
 venv/
@@ -44,4 +45,6 @@ dist/
 *.spec
 
 # Trained Models
-ticket_triage_model/
+/ticket_triage_model/
+/notebooks/ticket_triage_model/
+/models/

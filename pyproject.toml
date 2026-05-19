@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "support-ticket-triage-system"
+version = "0.1.0"
+description = "Local web demo for support and GitHub ticket triage."
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.2",
+    "scikit-learn>=1.5",
+    "streamlit>=1.36",
+    "joblib>=1.4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.2", "ruff>=0.5"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "scripts", "tests"]
+exclude = ["notebooks", "dataset", "models", "venv"]
