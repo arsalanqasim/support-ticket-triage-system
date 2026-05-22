@@ -177,7 +177,7 @@ def train_single_label(
         }
     )
 
-    print(f"\n✅ Saved {target} model → {final_path}")
+    print(f"\n[OK] Saved {target} model -> {final_path}")
     print(f"   Metrics: {eval_metrics}")
 
 
@@ -197,7 +197,7 @@ def train_multi_label(
     df = load_category_training_data(limit=limit)
 
     mlb = MultiLabelBinarizer()
-    y = mlb.fit_transform(df["labels"])     # shape (N, num_labels)
+    y = mlb.fit_transform(df["labels"]).astype(np.float32)     # shape (N, num_labels)
     labels = list(mlb.classes_)
     label2id = {l: i for i, l in enumerate(labels)}
     id2label  = {i: l for i, l in enumerate(labels)}
@@ -216,7 +216,7 @@ def train_multi_label(
 
     def tokenize(batch):
         enc = tokenizer(batch["text"], truncation=True, max_length=256)
-        enc["labels"] = [list(map(float, row)) for row in batch["labels"]]
+        # the labels are already floats in y_train / y_test
         return enc
 
     train_ds = train_ds.map(tokenize, batched=True, remove_columns=["text"])
@@ -269,7 +269,7 @@ def train_multi_label(
         }
     )
 
-    print(f"\n✅ Saved {target} model → {final_path}")
+    print(f"\n[OK] Saved {target} model -> {final_path}")
     print(f"   Metrics: {eval_metrics}")
 
 
@@ -313,7 +313,7 @@ def main() -> None:
         else:
             train_single_label(t, args.model, out, limit=args.limit)
 
-    print("\n🎉  All transformer models trained and saved.")
+    print("\n[OK] All transformer models trained and saved.")
 
 
 if __name__ == "__main__":
