@@ -12,6 +12,7 @@ dependencies = [
     "scikit-learn>=1.5",
     "streamlit>=1.36",
     "joblib>=1.4",
+    "mlflow>=2.13.0",
 ]
 
 [project.optional-dependencies]
