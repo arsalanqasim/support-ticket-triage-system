@@ -29,6 +29,11 @@ venv/
 # Logs
 *.log
 
+# MLflow runs and artifacts
+/mlruns/
+/notebooks/mlruns/
+mlflow.db
+
 # Byte-compiled / optimized / DLL files
 *.pyd
 *.so
