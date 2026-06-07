@@ -1,55 +1,64 @@
-# Note
-NOTES.md
-
-# Dataset
-dataset/
-
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
-.pytest_cache/
+*.egg-info/
+*.egg
+.eggs/
+dist/
+build/
+*.whl
 
 # Virtual environments
 venv/
+.venv/
+env/
+.env/
+
+# Environment variables
 .env
-.env.*
+.env.local
+.env.*.local
 
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# IDE/editor files
+# IDE
 .vscode/
-*.swp
-*~
+.idea/
+*.iml
 
-# MacOS
-.DS_Store
+# Jupyter
+.ipynb_checkpoints/
+notebooks/mlruns/
+notebooks/mlflow.db
+
+# MLflow
+mlruns/
+mlflow.db
+mlflow.log
+
+# Model artifacts (large files - tracked via DVC or documented separately)
+models/*.joblib
+models/transformer/
+models/test_*.joblib
 
 # Logs
 *.log
+logs/
 
-# MLflow runs and artifacts
-/mlruns/
-/notebooks/mlruns/
-mlflow.db
+# Test / coverage
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
 
-# Byte-compiled / optimized / DLL files
-*.pyd
-*.so
-*.dll
+# OS
+.DS_Store
+Thumbs.db
 
-# Distribution / packaging
-build/
-dist/
-*.egg-info/
-*.eggs/
+# Temporary files
+*.tmp
+*.temp
 
-# PyInstaller
-*.manifest
-*.spec
-
-# Trained Models
-/ticket_triage_model/
-/notebooks/ticket_triage_model/
-/models/
+# Dataset (large files)
+dataset/dataset_13_labels.csv
+dataset/dataset_clean.csv

@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  # ── FastAPI REST API ─────────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: triageiq-api:latest
+    container_name: triageiq-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount trained model artifacts from host into container
+      - ./models:/app/models:ro
+    environment:
+      - TRIAGEIQ_API_KEY=${TRIAGEIQ_API_KEY:-change-me-to-a-strong-secret-key}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - MODEL_DIR=/app/models
+      - MLFLOW_TRACKING_URI=${MLFLOW_TRACKING_URI:-sqlite:////app/mlflow.db}
+      - MLFLOW_EXPERIMENT_NAME=${MLFLOW_EXPERIMENT_NAME:-triageiq_inference}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+
+  # ── Streamlit Web UI ─────────────────────────────────────────────────────────
+  ui:
+    image: python:3.11-slim
+    container_name: triageiq-ui
+    working_dir: /app
+    command: >
+      sh -c "pip install -e '.[dev]' -q &&
+             streamlit run src/triage/web/app.py
+             --server.port 8501
+             --server.address 0.0.0.0
+             --server.headless true"
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+      - ./models:/app/models:ro
+    environment:
+      - TRIAGEIQ_API_KEY=${TRIAGEIQ_API_KEY:-change-me-to-a-strong-secret-key}
+      - API_BASE_URL=http://api:8000
+      - MODEL_DIR=/app/models
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped

@@ -16,18 +16,18 @@ from pathlib import Path
 
 # ── Resolve project src so 'triage' package can be imported ─────────────────
 _HERE = Path(__file__).resolve()
-sys.path.insert(0, str(_HERE.parents[1] / "src"))
+sys.path.insert(0, str(_HERE.parents[1] / "src"))  # noqa: E402
 # ─────────────────────────────────────────────────────────────────────────────
 
-import numpy as np
-import torch
+import numpy as np  # noqa: E402
+import torch  # noqa: E402
 
 torch.manual_seed(42)
 
-from datasets import Dataset
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MultiLabelBinarizer
-from transformers import (
+from datasets import Dataset  # noqa: E402
+from sklearn.model_selection import train_test_split  # noqa: E402
+from sklearn.preprocessing import MultiLabelBinarizer  # noqa: E402
+from transformers import (  # noqa: E402
     AutoModelForSequenceClassification,
     AutoTokenizer,
     DataCollatorWithPadding,
@@ -35,12 +35,12 @@ from transformers import (
     TrainingArguments,
 )
 
-from triage.data.loaders import (
+from triage.data.loaders import (  # noqa: E402
     load_category_training_data,
     load_intent_training_data,
     load_priority_training_data,
 )
-from triage.models.artifacts import write_metadata
+from triage.models.artifacts import write_metadata  # noqa: E402
 
 TRANSFORMER_DIR = _HERE.parents[1] / "models" / "transformer"
 
@@ -106,8 +106,8 @@ def train_single_label(
     df = loader(limit=limit)
 
     labels = sorted(df["label"].unique())
-    label2id = {l: i for i, l in enumerate(labels)}
-    id2label = {i: l for i, l in enumerate(labels)}
+    label2id = {lbl: i for i, lbl in enumerate(labels)}
+    id2label = {i: lbl for i, lbl in enumerate(labels)}
 
     df = df.copy()
     df["label"] = df["label"].map(label2id)
@@ -199,8 +199,8 @@ def train_multi_label(
     mlb = MultiLabelBinarizer()
     y = mlb.fit_transform(df["labels"]).astype(np.float32)     # shape (N, num_labels)
     labels = list(mlb.classes_)
-    label2id = {l: i for i, l in enumerate(labels)}
-    id2label  = {i: l for i, l in enumerate(labels)}
+    label2id = {lbl: i for i, lbl in enumerate(labels)}
+    id2label = {i: lbl for i, lbl in enumerate(labels)}
 
     texts = df["text"].tolist()
     df_train_x, df_test_x, y_train, y_test = train_test_split(

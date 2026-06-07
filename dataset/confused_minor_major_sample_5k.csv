@@ -1,0 +1,2320 @@
+title,body,severity,y_pred
+add learn.infiniteskills.com,"please can you add this elearning website 
+learn.infiniteskills.com
+
+it will very helpful for everyone
+
+thanks
+",major,minor
+support bmobject manifests (was: bloomberg-->add normal mp4s to format dict),"i can't find normal mp4s in -f output, only hls and frm
+http://www.bloomberg.com/news/videos/2016-12-12/trump-tweets-f-35-jet-program-costs-out-of-control
+is this link in format dict?:
+http://cdn3.videos.bloomberg.com/m/njk3mtgynq/mjmzmdc4mw/rothacker08511212d_440.mp4",major,minor
+different results of cascadeclasifier on cpu and gpu,"### my system
+- opencv version: 3.1
+- host os: linux (ubuntu 14.04)
+- cpu: intel i7 3770
+- video card: gtx-950
+- video driver: v.352.93
+### in which part of the opencv library you got the issue?
+- objdetect, cudaobjdetect
+- cv::cascadeclassifier, cv::cuda::cascadeclassifier
+### expected behaviour
+
+i built the latest opencv version with cuda support from master branch. after that i tried to use cpu cv::cascadeclassifier and gpu cv::cuda::cascadeclassifier, but faced with a strange result. i use same xml from opencv/data/haarcascades_cuda/haarcascade_fullbody.xml for both cpu and gpu version of cascadeclassifier. cpu classifier with this xml shows much more objects than gpu classifier.
+
+another strange thing, that when i set scalefactor to 2, speed of cpu version boosted up to 4 times, but gpu version becomes just slightly faster.
+### additional description
+
+[opencvqa](http://answers.opencv.org/question/96452/different-results-of-cascadeclasifier-on-cpu-and-gpu/)
+[video demo: example.ogv.zip](https://github.com/itseez/opencv/files/320887/example.ogv.zip)
+[video demo with same parameters values: example_v2.ogv.zip](https://github.com/itseez/opencv/files/322422/example_v2.ogv.zip)
+### code example to reproduce the issue
+
+[bitbucket: main.cpp](https://bitbucket.org/barbatum/cascadeqa/raw/571cdafc1b230cb5ec5d2c7b6b766895549d2d1e/cascadeqa/main.cpp)
+[bitbucket: qmake project + deps build bash script](https://bitbucket.org/barbatum/cascadeqa)
+",major,minor
+cmd/internal/obj/arm: should not put instruction encoding into reloc.add,"please answer these questions before submitting your issue. thanks!
+
+### what version of go are you using (`go version`)?
+
+### what operating system and processor architecture are you using (`go env`)?
+
+whatever the trybots for linux-arm are using
+
+### what did you do?
+
+built a sample file with -n -l then attempted to load it with cmd/internal/goobj:
+
+https://go-review.googlesource.com/#/c/39230/
+
+### what did you expect to see?
+
+honest object files.
+
+### what did you see instead?
+
+https://storage.googleapis.com/go-build-log/e81c4c0b/linux-arm_e2ed47ce.log",major,minor
+download only audio bytes ,"i want to download from youtube the best audio quality possible.
+since the audio only files are at low bitrate (usually 128k), i have to download the whole audio+video (format 22 usually has the best audio), and then extract the audio.
+
+but i don't want to download the entire video file to only get the audio.
+
+i know it is possible to download only audio bytes by parsing the format header and skip all video frames to save bandwidth.
+
+for example 4k video downloader does this with youtube to get the best audio quality from a video.
+it parses the mp4 header, and download only the audio bytes.
+
+it is possible to implement this functionality?
+",major,minor
+cmd/compile: output variable names in data race reports,"<pre>it would be nice if in data race reports we print variable size and symbolic name as
+well. e.g. &quot;read of 'foo.bar'&quot;.</pre>
+",minor,major
+would be nice if `flutter run` only downloaded the necessary artifacts,"i was on a train with bad wifi.  it was painful.
+
+i was trying to run the gallery on an ios simulator.
+
+```
+%flutter run
+building flutter tool...
+downloading package sky_engine...                    8101ms
+running 'pub get' in sky_engine...                   450ms
+downloading package sky_services...                  596ms
+running 'pub get' in sky_services...                 3139ms
+downloading package flutter_services...              1929ms
+running 'pub get' in flutter_services...             2294ms
+building dart sdk summary...                         1753ms
+downloading engine artifacts android-arm...          177027ms
+downloading engine artifacts android-arm-profile...  164117ms
+downloading engine artifacts android-arm-release...  115925ms
+downloading engine artifacts android-x64...          78964ms
+downloading engine artifacts android-x86...          78600ms
+downloading engine artifacts ios...                  178979ms
+downloading engine artifacts ios-profile...          189778ms
+downloading engine artifacts ios-release...          152586ms
+downloading darwin-x64 tools...                      232022ms
+downloading android-arm-profile/darwin-x64 tools...  34656ms
+downloading android-arm-release/darwin-x64 tools...  139862ms
+running 'pub get' in flutter_gallery...              870ms
+```
+
+fyi @danrubel 
+",major,minor
+investigate alternatives to libimobiledevice ,"given #5397, #6067, #6105, it's clear there's some risk in depending on libimobiledevice, particularly around new xcode/ios release times. 
+",major,minor
+x/build/kubernetes/gke: use non-deprecated auth,"we're currently using `clusters.list` to get the certificate pair used to authenticate to the kubernetes api. this is deprecated (and very confusing to set up in a new project). the docs say we should switch to just using oauth directly with the api (which has the advantage that we don't need to also grant the coordinator permission to create new clusters).
+
+/cc @bradfitz ",minor,major
+treatment of regions in trait matching is perhaps too simplistic,"not sure why i didn't see this coming. until now, the treatment of regions in trait matching has intentionally ignored lifetimes (in the sense of, it did not consider lifetime constraints when deciding what impl to apply -- once an impl is selected, the constraints that appear on it naturally are enforced). the reason for this is that lifetime inference is a second pass that uses a much more flexible constraint-graph solving algorithm, in contrast to the bulk of type inference which uses something much closer to unification. a side-effect of this is that you cannot easily get a ""yes or no"" answer to the question ""does `'x : 'y` hold?"" one must see wait until all the constraints have been gathered to know.
+
+however, this leads to problems when you have multiple predicates in the environment that reference lifetimes. this is easy to see in the following example, but one does not need where clauses to get into this situation:
+
+``` rust
+trait foo {
+    fn foo(self);
+}
+
+fn foo<'a,'b,t>(x: &'a t, y: &'b t)
+    where &'a t : foo,
+          &'b t : foo
+{
+    x.foo(); 
+    y.foo();
+}
+
+fn main() { }
+```
+
+this winds up failing to compile because it can't really distinguish the two predicates here, since they are identical but for the specific lifetimes involved. this doesn't arise much in practice because it's unusual to have two requirements like that, usually you either have a more universal requirement (e.g., `for<'a> &'a t : foo`), or just one particular lifetime you are interested in. i observed this problem however when experimenting with [implied bounds](http://smallcultfollowing.com/babysteps/blog/2014/07/06/implied-bounds/), because it is common for multiple indistinguishable bounds of this kind to be generated as part of that proposal.
+
+i'm not really sure how best to solve this at the moment.
+",major,minor
+non-upper case constant warning misapplied in patterns,"a constant with `#[allow(non_upper_case_globals)]` applied still generates a warning when used in a pattern, unless the `match` also has the allow attribute. for example:
+
+```rust
+#[allow(non_upper_case_globals)]
+mod keywords {
+    pub const if: u32 = 0;
+    pub const while: u32 = 1;
+}
+
+fn main() {
+    use keywords::*;
+
+    // the warning goes away with this attribute:
+    // #[allow(non_upper_case_globals)]
+    match 0 {
+        keywords::if => println!(""if""),
+        while => println!(""while""),
+        _ => println!(""<unknown>""),
+    }
+}
+```
+
+[playground](https://is.gd/jznzqb)",major,minor
+encoding/xml: disallow attributes named xmlns:*,"by **opennota**:
+
+<pre>the encoder will add namespaced to the elements, even if there are the same namespaces
+in the parent element:
+<a href=""http://play.golang.org/p/ldrjcxujhx"">http://play.golang.org/p/ldrjcxujhx</a>
+
+// output:
+// &lt;p xmlns=&quot;<a href=""http://www.gribuser.ru/xml/fictionbook/2.0&quot"">http://www.gribuser.ru/xml/fictionbook/2.0&quot</a>;
+xmlns:l=&quot;<a href=""http://www.w3.org/1999/xlink&quot"">http://www.w3.org/1999/xlink&quot</a>;&gt;&lt;a
+xmlns=&quot;<a href=""http://www.gribuser.ru/xml/fictionbook/2.0&quot"">http://www.gribuser.ru/xml/fictionbook/2.0&quot</a>;
+xmlns:xlink=&quot;<a href=""http://www.w3.org/1999/xlink&quot"">http://www.w3.org/1999/xlink&quot</a>;
+xlink:href=&quot;<a href=""http://google.com&quot"">http://google.com&quot</a>;&gt;google.com&lt;/a&gt;&lt;/p&gt;
+
+i expect it to not repeat the namespaces:
+
+// &lt;p xmlns=&quot;<a href=""http://www.gribuser.ru/xml/fictionbook/2.0&quot"">http://www.gribuser.ru/xml/fictionbook/2.0&quot</a>;
+xmlns:l=&quot;<a href=""http://www.w3.org/1999/xlink&quot"">http://www.w3.org/1999/xlink&quot</a>;&gt;&lt;a
+l:href=&quot;<a href=""http://google.com&quot"">http://google.com&quot</a>;&gt;google.com&lt;/a&gt;&lt;/p&gt;</pre>
+",major,minor
+closure return type not deduced from bounds if the type is wrapped.,"in a tuple, for example:
+
+``` rust
+fn call<r, f: fnonce() -> r>(f: f) -> r {
+    f()
+}
+
+fn main() {
+    let _: (&[i32],) = call(|| (&[],));
+}
+```
+
+afaict, we don't deduce that `call::<$r, _>(|| (&[],)) expects (&[i32],)` implies `&[] expects &[i32]`, only `(&[],) expects $r`.
+",minor,major
+x/image/font: make it easier to measure a string's bounds and draw it in a bounding box,"this issue applies to github.com/golang/freetype, if that is still under development.
+
+i want to accomplish the following (superficially) easy tasks:
+- given a string and a fully specified font/context, determine the rendered string's bounds, taking into account ascenders, descenders, etc.; something along the lines of `nsstring`'s `-sizewithattributes:` method.
+- given an appropriately sized rect, render a string in that rect, compensating for ascenders, descenders, etc; something like `nsstring`'s `-drawinrect:withattributes:` method.
+
+i will use this to render a simple, short string into a texture of just the right size, and then upload that texture onto a window for use as a label at a particular origin.
+
+`measurestring` looks close, but it only provides the width, not the height. (and i don't see a way to get the line height / leading from a font.) and `drawstring` is close, but the dot's y offset is the baseline of the text, which i don't see a handy way to calculate.
+
+the fact that these are top-level apis in cocoa suggests that these are common needs and that they cover a large portion of use cases. maybe this should be handled with examples, or maybe with new fundamental apis, or maybe with convenience apis. i don't know enough to say.
+
+/cc @nigeltao 
+",minor,major
+x/text/currency: position of the iso code or sign in amounts,"``` go
+    currencycode = ""pln""
+    unit, _ := currency.parseiso(currencycode)
+    p := message.newprinter(language.polish)
+    amount := float64(100)
+    p.print(currency.symbol(unit.amount(amount)))
+```
+
+the result is `zł 100` but i would expect `100 zł`.
+https://en.wikipedia.org/wiki/iso_4217#position_of_iso_4217_code_in_amounts
+http://publications.europa.eu/code/en/en-370303.htm#position
+
+i would expect `100 zł` but maybe there is ""other"" library/func/method that handles order?
+or if this is on todo list, any idea how could i workaround the problem?
+",major,minor
+cmd/compile: sync/atomic.swappointer arguments escape for the wrong reason,"in the implementation of sync/atomic.swappointer (which is in runtime/atomic_pointer.go), there's nothing that causes the ""new"" argument to escape, even though it needs to (because you could be swapping it in to a global). the compiler agrees:
+
+```
+$ go build -gcflags ""-m -m"" -a runtime |& grep sync_atomic_swappointer                                                                     
+runtime/atomic_pointer.go:58: sync_atomic_swappointer ptr does not escape
+runtime/atomic_pointer.go:58: sync_atomic_swappointer new does not escape
+```
+
+however, you can't actually tickle this. for example, in principle the following program should sneak the address of stack variable y into a global variable:
+
+```
+package main
+
+import (
+    ""sync/atomic""
+    ""unsafe""
+)
+
+var x unsafe.pointer
+
+func main() {
+    var y int
+    z := unsafe.pointer(&y)
+    atomic.swappointer(&x, z)
+}
+```
+
+but it doesn't!
+
+```
+$ go build -gcflags ""-m -m"" x.go
+# command-line-arguments                        
+./aesc.go:13: &x escapes to heap
+./aesc.go:13:   from &x (passed to function[unknown]) at ./aesc.go:13
+./aesc.go:11: moved to heap: y
+./aesc.go:12: &y escapes to heap
+./aesc.go:12:   from z (assigned) at ./aesc.go:12
+./aesc.go:12:   from z (passed to function[unknown]) at ./aesc.go:12
+```
+
+this happens to work right now, but for the wrong reason: because swappointer is defined in the runtime and we use a ""go:linkname"" comment to expose it from sync/atomic, there's no escape information at all when the test program calls swappointer (hence the ""passed to function[unknown]""), so the compiler conservatively assumes everything escapes. (in fact, the first argument doesn't have to escape and we have annotations in the runtime to that effect, but they never make it through.)
+
+this all seems very fragile.
+
+/cc @dr2chase @randall77 
+",minor,major
+add parseable output for flutter doctor,"i thought i'd discussed this with someone before, but can't find it anywhere.. it'd be nice if an ide can execute `flutter doctor` and provide info to the user when there are problems.
+
+the current output isn't too bad for parsing, but it could be fragile if there are changes or if it becomes interactive and starts expecting input.
+
+it'd be good to have a new switch (eg. `--machine`) that'll give output in a consistent format. another possibility is adding it as a command to `flutter daemon`, however i don't know if the daemon can actually run if there are missing pre-requisites, so maybe that's not a good idea!",major,minor
+fine-tune binary heap sifting logic,"there's a fundamental compromise in sifting strategy that optimizes for small/big heaps or elements.
+
+see #30534 for discussion and details, which changed `pop` to optimize for the large case. it's possible a branch on `self.len` could produce better results for small cases.
+
+cc @bluss if you want to chime in
+",minor,major
+install script should complain if $nvm_dir isn't a valid base path,"https://github.com/creationix/nvm/issues/1520#issuecomment-298117770 is an example of a user having an outdated `nvm_dir` setting in their profile file.
+
+the installation script should detect when the nvm_dir does not exist (and ideally backtrack up til it can find the first nonexistent directory) and inform the user clearly that they need to fix their `nvm_dir` setting (ideally with the default) and retry the installation.",minor,major
+download only 1mb of file and use title in filename,"i am using the below to download only 1 mb of the file. 
+
+`youtube-dl -v url -o - | head -c 1000000 > output.mp4`
+
+can i use %(title)s.%(ext)s instead of output.mp4",major,minor
+"improve javascript intellisense type inference for cases where object.assign(this, ...) is used with an object with known type information","_from @jj101k on may 28, 2017 10:16_
+
+- vscode version: 1.12.2 (19222cdc84ce72202478ba1cec5cb557b71163de)
+- os version: macos sierra 10.12.5 (16f73)
+
+given the javascript code:
+
+```js
+class foo {
+    constructor() {
+        object.assign(
+            this,
+            {
+                bar: ""abc"",
+            }
+        );
+        this.foo = ""def"";
+    }
+}
+
+var f = new foo();
+console.log(f.foo);
+console.log(f.bar);
+```
+
+if you hover over `f.foo`, it will tell you that it's a string. if you hover over `f.bar`, it will say it's ""any"". they should both say ""string"".
+
+object.assign is a fairly common way of setting several properties with a bit less copy/paste. in cases where an object without known type information is used as the last argument it isn't possible to statically infer appropriate types for the modified object (""this"", here) and equivalently the object that object.assign returns. where type information of the last argument _is_ known, it is safe and appropriate to import all of that into the type information for the object, as if a series of direct assignments had been done.
+
+caveats: in javascript (perhaps not typescript) it's possible that further unknown properties are present on any given object, so it would be appropriate to void all inferred type information which is not between object.assign and the end of the constructor. if object.assign is used outside a constructor (on a named object) it should void all inferred types entirely, because the type information could be entirely different before and after. the same should be true if object.assign is conditionally called in the constructor. the only exception should be when all arguments after the first have known final type information, eg. an immediate object.
+
+for practical purposes, `object.assign(foo, bar, {baz: 1})` should be considered equivalent to `for(name in bar) if(bar.hasownproperty(name)) foo[name] = bar[name]; foo.baz=1;`.
+
+_copied from original issue: microsoft/vscode#27397_",major,minor
+add option for start-point,"hi, it would be wonderful to have an option to download a video from a given starting point.
+for example this http://www.youtube.com/watch?v=d-fqjhi6a-u video is about 9h long, but i only want to have the last hour.
+of course it would be nice to be able to just pass a time code, but start-byte or something similar would be sufficient. 
+is something like that possible?
+",major,minor
+x/tools/cmd/present: browser fullscreen mode wish,"on large displays present shows almost [half of the next slide](http://s.natalian.org/2015-09-16/1442368126_1918x1058.png) which can be distracting. could there be a fullscreen mode please?
+",major,minor
+elm architectural pattern,"**description:**
+the elm design pattern, originating from the elm language, is a pattern for building web applications that emphasizes simplicity, maintainability, and robustness. it follows the model-view-update (mvu) architecture, making state management predictable by using a single, immutable state.
+
+**main elements of the pattern:**
+1. **model:** represents the state of the application.
+2. **view:** a function of the model that returns the html representation.
+3. **update:** a function that takes the current state and a message, returning a new state.
+4. **messages:** dispatched events that trigger state transitions.
+5. **commands:** side effects such as http requests that do not change the state directly but might produce messages.
+
+**references:**
+1. [the elm architecture](https://guide.elm-lang.org/architecture/)
+2. [elm architecture tutorial](https://github.com/evancz/elm-architecture-tutorial/)
+
+**acceptance criteria:**
+1. implement the model-view-update architecture with clear separation of concerns.
+2. ensure immutability of the state and the predictability of state transitions.
+3. provide comprehensive unit tests covering all components (model, view, update, messages, and commands).
+",minor,major
+cv::cuda::houghcirclesdetector and cv::houghcircles do not give the same results,"hello,
+
+##### system information (version)
+opencv 3.1.0, windows 7 64 bits, visual studio 2010, cuda 8
+
+##### detailed description
+i have noticed that for a similar input, cv::cuda::houghcirclesdetector and cv::houghcircles do not give the same results. i am not sure if it is normal, because the documentation does not tell that it should be the case (algorithms may be different).
+however, it would be convenient, either to fix it, or explain how to circumvent it by adapting the parameters.
+
+##### steps to reproduce
+image provided as attachement, and here is a sample code :
+
+```
+cv::mat img = cv::imread(""test.png"", cv::imread_grayscale);
+
+  float dp = 1;
+  float mindist = 100;
+  int cannythreshold = 122;
+  int accthreshold = 50;
+  int minradius = 1;
+  int maxradius = std::max(img.size().width, img.size().height);
+
+  std::vector<cv::vec3f> cpucircles;
+  cv::houghcircles(img, cpucircles, cv::hough_gradient, dp, mindist, cannythreshold, accthreshold, minradius, maxradius);
+
+  std::vector<cv::vec3f> gpucircles;
+  cv::ptr<cv::cuda::houghcirclesdetector> gpudetector = cv::cuda::createhoughcirclesdetector(dp, mindist, cannythreshold, accthreshold, minradius, maxradius);
+  cv::cuda::gpumat gpumat;
+  cv::cuda::gpumat gpuresult;
+  gpumat.upload(img);
+  gpudetector->detect(gpumat, gpuresult);
+  gpucircles.resize(gpuresult.size().width);
+  if (!gpucircles.empty())
+    gpuresult.row(0).download(cv::mat(gpucircles).reshape(3, 1));
+
+  printf(""cpu circles :\n"");
+  for(std::vector<cv::vec3f>::const_iterator it = cpucircles.begin() ; it != cpucircles.end() ; ++it)
+    printf(""(%f,%f,%f)"", it->val[0], it->val[1], it->val[2]);
+  printf(""\n"");
+  printf(""gpu circles :\n"");
+  for(std::vector<cv::vec3f>::const_iterator it = gpucircles.begin() ; it != gpucircles.end() ; ++it)
+    printf(""(%f,%f,%f)"", it->val[0], it->val[1], it->val[2]);
+  printf(""\n"");
+```
+
+output result :
+cpu circles :
+(165.500000,329.500000,56.925388)
+gpu circles :
+(165.500000,328.500000,100.000000)(165.500000,328.500000,56.000000)(165.500000,3
+28.500000,60.000000)(165.500000,328.500000,65.000000)(165.500000,328.500000,73.0
+00000)(165.500000,328.500000,87.000000)(165.500000,328.500000,151.000000)(165.50
+0000,328.500000,178.000000)(165.500000,328.500000,180.000000)(165.500000,328.500
+000,183.000000)(165.500000,328.500000,185.000000)(165.500000,328.500000,187.0000
+00)(165.500000,328.500000,190.000000)(165.500000,328.500000,224.000000)
+
+![test](https://cloud.githubusercontent.com/assets/7251617/21050443/14b9393c-be1b-11e6-8cfe-061b284959b2.png)
+
+",major,minor
+cmd/dist: run all tests unless explicitly disabled on a platform,"every now and again a test isn't enabled on a platform where it should be (for example: https://github.com/golang/go/commit/161cd34f788ee9c6b61565eb6f865434bc135306). a leading culprit of this is feature checks that only run a test if the goos/goarch combination is in a list:
+
+```go
+pair := t.gohostos + ""-"" + t.goarch
+switch (pair) {
+case ""android-arm"", ""darwin-arm"", ...:
+    // run test
+default:
+    // don't run test
+}
+```
+
+if a goos/goarch combination isn't correctly added to one of the many lists like this, then the related tests simply won't run. this is not always obvious.
+
+i think it would be good to refactor test.go so that it always defaults to running a test unless explicitly told not to for a given platform (preferably with an issue referencing the missing feature). this will make it harder to accidentally forget to enable a test.",minor,major
+provide a way to interpolate crate version in html_root_url,"in serde we work around this by having a reminder in cargo.toml to update the html_root_url when releasing a new version. https://github.com/serde-rs/serde/commit/dc7ab2696a14fe5ca219ac09f8496bdc613ff602
+
+```toml
+[package]
+version = ""1.0.8"" # remember to update html_root_url
+```
+
+```rust
+#![doc(html_root_url = ""https://docs.rs/serde/1.0.8"")]
+```
+
+this is annoying and easily falls out of sync. for example mio 0.6.8 docs point to version 0.6.1: https://github.com/carllerche/mio/issues/613.
+
+there should be a way to keep these synchronized automatically.",minor,major
+specify and possibly reconsider the precise semantics of #[no_mangle],"this internals post describes how people are exploiting the underspecified aspects of `#[no_mangle]` to practical effect: https://internals.rust-lang.org/t/precise-semantics-of-no-mangle/4098 . we may want to specify what guarantees the attribute actually has, and possibly introduce new attributes to represent the fine-grained roles that `#[no_mangle]` is currently being used for.
+",minor,major
+expose api for getting jsdoc nodes in typescript files,"closure adds various semantic jsdoc annotations that aren't currently modeled by typescript, such as @export (unrelated to ts export) and @nosideeffects.
+https://developers.google.com/closure/compiler/docs/js-for-compiler#overview
+
+as part of our tool chain to run typescript through closure we'd like to be able to munge these via the typescript api.  it appears typescript gathers jsdoc comments when parsing javascript -- is there a good reason to not gather these in typescript as well?
+
+specifically, i believe my suggestion amounts to removing the ""if"" statement in the below code (though i'm not certain this is the right place) in `parser.ts`:
+
+``` js
+        function addjsdoccomment<t extends node>(node: t): t {
+            if (contextflags & nodeflags.javascriptfile) {
+                ...all of the code is in here...
+            }
+        }
+```
+",major,minor
+cmd/compile: combine extension with register loads and stores on amd64,"extending a register load or store currently generates suboptimal code with the ssa backend. in some cases, this is a regression from the old backend. for example:
+
+`func load8(i uint8) uint64 { return uint64(i) }`
+
+generates:
+
+```
+"""".load8 t=1 size=16 args=0x10 locals=0x0
+    0x0000 00000 (extend.go:3)  text    """".load8(sb), $0-16
+    0x0000 00000 (extend.go:3)  funcdata    $0, gclocals·23e8278e2b69a3a75fa59b23c49ed6ad(sb)
+    0x0000 00000 (extend.go:3)  funcdata    $1, gclocals·33cdeccccebe80329f1fdbee7f5874cb(sb)
+    0x0000 00000 (extend.go:3)  movblzx """".i+8(fp), ax
+    0x0005 00005 (extend.go:3)  movbqzx al, ax
+    0x0008 00008 (extend.go:3)  movq    ax, """".~r1+16(fp)
+    0x000d 00013 (extend.go:3)  ret
+```
+
+the old back end generates:
+
+```
+"""".load8 t=1 size=16 args=0x10 locals=0x0
+    0x0000 00000 (extend.go:3)  text    """".load8(sb), $0-16
+    0x0000 00000 (extend.go:3)  funcdata    $0, gclocals·23e8278e2b69a3a75fa59b23c49ed6ad(sb)
+    0x0000 00000 (extend.go:3)  funcdata    $1, gclocals·33cdeccccebe80329f1fdbee7f5874cb(sb)
+    0x0000 00000 (extend.go:3)  movbqzx """".i+8(fp), bx
+    0x0005 00005 (extend.go:3)  movq    bx, """".~r1+16(fp)
+    0x000a 00010 (extend.go:3)  ret
+```
+
+i tried fixing this in cl 21838, but the fix was partial and probably not in the right place.
+
+it's hard to do this as part of the arch-specific rewrite rules, because (a) you lose the type extension work that the ssa conversion did for you and have to recreate it later and (b) you don't know where all the register loads and stores will be, because regalloc hasn't run.
+
+however, it's hard to do this as part of converting final ssa to instructions (genvalue), since that's really geared to handle one value at a time, in isolation.
+
+teaching regalloc to combine these movs seems arch-specific and would further complicate already complicated machinery. maybe the thing to do is to add an arch-specific rewrite pass after regalloc (""peep""?), using hand-written rewrite rules. input requested.
+
+related, for those extension movs that remain, we should test whether cwb and friends are desirable--they are shorter, but are register-restricted and the internet disagrees about whether they are as fast.
+
+here are some test cases:
+
+``` go
+package x
+
+func load8(i uint8) uint64   { return uint64(i) }
+func load32(i uint32) uint64 { return uint64(i) }
+
+func store8(i uint64) uint64  { return uint64(uint8(i)) }
+func store32(i uint64) uint64 { return uint64(uint32(i)) }
+
+var p *int
+
+func load8spill(i uint8) uint64 {
+    i++            // use i
+    print(i)       // spill i
+    j := uint64(i) // use and extend i
+    return j
+}
+
+func load32spill(i uint32) uint64 {
+    i++            // use i
+    print(i)       // spill i
+    j := uint64(i) // use and extend i
+    return j
+}
+
+func store8spill(i uint64) uint64 {
+    j := uint8(i)    // convert
+    print(j)         // spill
+    return uint64(j) // use
+}
+
+func store32spill(i uint64) uint64 {
+    j := uint32(i)   // convert
+    print(j)         // spill
+    return uint64(j) // use
+}
+```
+
+cc @randall77 
+",minor,major
+"x/tools/refactor/eg: when matching struct literals, abstract over the tagged/tagless forms","equivalent struct literals may be written in several ways:
+   t{1, 2}
+   t{a: 1, b: 2}
+   t{b: 2, a: 1}
+the 'eg' tool should allow a pattern using any of these forms to match any of these expressions.  that means internally converting to the named form and doing name-based (not index-based) matching of subtrees.  the output should be emitted in the same form as the original.
+",minor,major
+jquery: $(this) vs $(event.currenttarget),"when working with jquery in es6 you have to pay particular attention to `$(this)` in event handlers. using `$(this)` in es5 is quite popular to access the dom element of the event handler. in es6 the code breaks if you switch from function to arrow function syntax:
+
+``` js
+// works:
+$selector.on('click', function() {
+   $(this).hide();
+});
+
+// doesn't work:
+$selector.on('click', () => $(this).hide());
+```
+
+instead you have to access the dom element via `event.currenttarget`:
+
+``` js
+// works:
+$selector.on('click', ev => $(ev.currenttarget).hide());
+```
+
+imo the main problem is that you can accidentally break code by just switching from `function` syntax to arrow functions. i'm aware that this problem is not exclusive to jquery but since `$(this)` is so widely used in jquery code, imo it wouldn't be the badest idea idea to add this to the list of bad styles.
+
+what do you think?
+",major,minor
+use function type shorthands when displaying signature help,"_from @unional on april 14, 2016 23:32_
+
+![image](https://cloud.githubusercontent.com/assets/3254987/14546974/4f88973e-025e-11e6-8053-724cc8ecc51e.png)
+i would be great if when `tape((<cursor>))` it would be able to drill in the `tape.testcase` and show the signature of the callback. :tulip: 
+
+this is probably on `tsc`, but let's start here. :smile:
+
+_copied from original issue: microsoft/vscode#5284_
+",major,minor
+visual studio formatting is wrong in some cases,"here is an example
+
+``` typescript
+var webapps: ng.ui.istate[] = [{
+    name: ""home.webapp"",
+    templateurl: ""templates/empty-shell.html""
+}, {
+    name: ""home.webapp.templates"",
+    templateurl: ""templates/templates.html""
+}, {
+    name: ""home.webapp.work"",
+    templateurl: ""templates/work.html""
+}];
+```
+
+vs formats it to
+
+``` typescript
+var webapps: ng.ui.istate[] = [{
+    name: ""home.webapp"",
+    templateurl: ""templates/empty-shell.html""
+}, {
+        name: ""home.webapp.templates"",
+        templateurl: ""templates/templates.html""
+    }, {
+        name: ""home.webapp.work"",
+        templateurl: ""templates/work.html""
+    }];
+```
+
+another example is 
+
+``` typescript
+function test($http: ng.ihttpservice) {
+    $http({
+        url: ""https://github.com"",
+        method: ""get""
+    })
+    .success((d) => {
+        console.log(d);
+    })
+    .finally(() => {
+        console.log(""finally"");
+    });
+}
+```
+
+vs formats it to 
+
+``` typescript
+function test($http: ng.ihttpservice) {
+    $http({
+        url: ""https://github.com"",
+        method: ""get""
+    })
+        .success((d) => {
+            console.log(d);
+        })
+        .finally(() => {
+            console.log(""finally"");
+        });
+}
+```
+",major,minor
+cmd/compile: eliminate duplicate instrumentation in racewalk,"<pre>use simple analysis to eliminate duplicate instrumentation in cases like:
+
+x = ...;
+... = x;
+
+currently it leads to insertion of 2 raceread() calls.</pre>
+",minor,major
+'end' event not called on connected socket wrapped with tls,"* **version**: v6.9.4, v7.4.0
+* **platform**: linux pc 4.2.0-30-generic #36-ubuntu smp fri feb 26 00:58:07 utc 2016 x86_64 x86_64 x86_64 gnu/linux
+* **subsystem**: net, tls
+
+when wrapping an existing socket with tls, the socket's 'end' event is not called if the socket was already connected.
+
+example:
+
+in this case 'end' will be called:
+```js
+var socket = require('net').socket;
+var tls = require('tls');
+
+var host = 'www.google.com';
+
+var socket = new socket();
+var tlsoptions = {
+  host: host,
+  socket: socket
+};
+
+socket.on('close', function() { console.log('close'); });
+socket.on('end', function() { console.log('end'); });
+
+var tlssocket = tls.connect(tlsoptions, function() {
+  console.log('connected');
+  tlssocket.end();
+});
+
+socket.connect({
+  port: 443,
+  host: host
+});
+```
+
+in this case 'end' will not be called:
+```js
+var socket = require('net').socket;
+var tls = require('tls');
+
+var host = 'www.google.com';
+
+var socket = new socket();
+var tlsoptions = {
+  host: host,
+  socket: socket
+};
+
+socket.on('close', function() { console.log('close'); });
+socket.on('end', function() { console.log('end'); });
+
+socket.connect({
+  port: 443,
+  host: host
+});
+
+var tlssocket = tls.connect(tlsoptions, function() {
+  console.log('connected');
+  tlssocket.end();
+});
+```",major,minor
+proposal: a directive should not receive events that it fired,"e.g.
+
+```
+export class checkbox {
+  @output() change: eventemitter = new eventemitter(); 
+
+  @hostlistener('change', [
+        '$event.target.value'
+   ])
+   onchange(event) { ... }
+}
+```
+",minor,major
+cmd/compile: let ssa store to pparamout variables earlier than return,"currently ssa cannot store early to named output variables.  it was disabled to fix #14591.  this issue is to track figuring out how to re-enable this feature at some point.
+",minor,major
+support for hudl,"would it be possible to support http://www.hudl.com ?  it uses json for the video urls, so hopefully it won't be too difficult :)
+",major,minor
+public items re-exported publicly in the same crate could have inlined docs,"as an example of what i mean, see this page: http://doc.rust-lang.org/syntax/parse/lexer/index.html
+
+there is a re-exports section:
+
+``` rust
+pub use ext::tt::transcribe::{ttreader, new_tt_reader, new_tt_reader_with_doc_flag};
+```
+
+all of those items are public and reachable, so they're documented in `ext::tt::transcribe`. but `lexer::new_tt_reader`, for example, does not appear in the search index and (less seriously) it's a little annoying to have to jump through another set of links to another page to read the docs for that function.
+
+when a private item is re-exported publicly in the same crate, or a public item from another crate is re-exported, the docs are inlined and an entry is created in the search index. i think it would be reasonable to do the same for public intra-crate re-exports.
+",minor,major
+nightly builds upload artifacts - mobile only?,"the [ios nightly builds](http://pullrequest.opencv.org/buildbot/builders/master-contrib_ios-mac/builds/337) have an `upload artifacts` step that allows direct downloading of the build. all the other builds ([windows](http://pullrequest.opencv.org/buildbot/builders/master-contrib-win64-vc12/builds/340), mac, etc.) don't zip and upload the release.
+
+why don't all the nightly builds archive the build?
+",major,minor
+'guicursor' does not reflect guifg/gui highlights,"- `nvim --version`: nvim v0.2.0-1147-g58422f17d
+
+- vim (version: ) behaves differently? n/a
+- operating system/version: archlinux 
+- terminal name/version: gnome-terminal
+- `$term`: gnome-256color
+
+### actual behaviour
+
+the cursor does not seem to pick up `guifg` and `gui` settings. also the original cursor settings
+do not seem to get restored after exiting neovim.
+
+i've set up a minimal `init.vim` that sets the cursor color to green and foreground to black as
+well as `gui=reverse` all except the background color get ignored. the text remains white which is unfortunate of the cursor itself is.
+
+when exiting neovim the cursor color in the terminal suddenly has turned green as well. 
+```
+nvim -u norc
+
+set guicursor=a:block-blinkon100-cursor/cursor
+hi cursor guifg=black guibg=green gui=reverse
+
+```
+",major,minor
+separate resource usage profiles,"there has been talk before (and i'm surprised to not find an existing issue about it) of having different memory usage profiles. this could encompass defaults for:
+- `-dbcache`
+- `-par`
+- `-maxsigcachesize`
+- `-maxmempool`
+- `-maxorphantx`
+- `-maxconnections`
+- `-maxreceivebuffer`
+- `-maxsendbuffer`
+
+for desktop systems, autodetecting could be used to determine optimal settings. for servers, it could be specified on the command line. i have heard about interest in a means for specifying ""just use all the memory i have"".
+",minor,major
+documentation: react/jsx-filename-extension can break checks without --ext arguments,"adding the `react/jsx-filename-extension` is just fine as a rule, but adding some direction that you will need to add the `--ext=js --ext=jsx` arguments to the eslint cli for it to work. it might cause issues for users who are not aware of this when they start using the `eslint-preset-airbnb` package. adding a line to the readme might be helpful, and i would be happy to do so. 😄 
+
+ideally, you could configure this as an option in `.eslintrc` but that is not currently available: 
+https://github.com/eslint/eslint/issues/801
+
+",minor,major
+gccgo: gcov branch coverage doesn't look quite right,"<pre>what steps will reproduce the problem?
+
+<a href=""https://groups.google.com/d/msg/golang-nuts/g8dszan8o9q/hsy_83ndgimj"">https://groups.google.com/d/msg/golang-nuts/g8dszan8o9q/hsy_83ndgimj</a>
+
+what do you see instead?
+
+look at a report like
+
+<a href=""http://alberts.github.com/home/alberts/deps/src/code.google.com/p/go.crypto/cast5/cast5.go.gcov.html"">http://alberts.github.com/home/alberts/deps/src/code.google.com/p/go.crypto/cast5/cast5.go.gcov.html</a>
+
+there's lots of untaken branches in places that look like code that doesn't involve
+branches at all.
+
+i'm wondering if it's due to bounds checks, allocations that could fail, etc.
+
+overall, i think these make the branch coverage numbers less useful than they could be.
+
+which compiler are you using (5g, 6g, 8g, gccgo)?
+
+gccgo
+
+which operating system are you using?
+
+linux
+
+which revision are you using?  (hg identify)
+
+gofrontend rev ca4aaf510222</pre>
+",major,minor
+unexpected non const behaviour in inputarray.getmat()  and mat::operator= ,"##### system information (version)
+- opencv = 3.1
+- operating system / platform = windows 7/64 bit
+- compiler = visual studio 2013
+##### detailed description
+
+as is defined `inputarray`  _is the proxy class for passing read-only input arrays into opencv functions_ but the `getmat()` method returns a read-write object.
+in addiction the `mat::operator=` returns a non-const mat even if source is defined as `const`
+##### steps to reproduce
+
+in the following test the function changes content of the `in` param while caller expects a read-only behaviour .
+as you can see  the test function can also changes content of the `const mat &src` param 
+
+``` .cpp
+void testconsts(const mat &src, inputarray in)
+{
+    mat dst1;
+    dst1 = src;
+    dst1 = 1;
+
+    mat dst2 = in.getmat();
+    dst2 = 2;
+}
+int main(int argc, char** argv)
+{
+    mat a = mat::zeros(size(3, 3), cv_8uc1);
+    mat b = mat::zeros(size(3, 3), cv_8uc1);
+    testconsts(a, b);
+    cout << a << endl;
+    cout << b << endl;
+    return 0;
+}
+```
+
+result is 1 and 2 instead of zeros
+
+``` .text
+a = [  1,   1,   1]
+b = [  2,   2,   2]
+```
+",major,minor
+encoding/gob: should report if a name is registered or not.,"by **brady@orchestrate.io**:
+
+<pre>it would be nice to have a logical function to go with gob.register() that reports back
+if an object is actually registered. this would help establish if encoding of a given
+object is actually going to be readable on the other end or not.
+
+i attached a terrible, poorly written and completely untested conceptual patch to show
+my intentions.</pre>
+
+
+attachments:
+1. <a href=""https://storage.googleapis.com/go-attachment/8779/0/gob.patch"">gob.patch</a> (1806 bytes)
+",minor,major
+multiple templatematching,"transferred from http://code.opencv.org/issues/2804
+
+```
+|| baptiste chinon on 2013-02-15 18:12
+|| priority: normal
+|| affected: none
+|| category: imgproc, video
+|| tracker: feature
+|| difficulty: 
+|| pr: 
+|| platform: none / none
+```
+## multiple templatematching
+
+```
+the templatematching can only work with one template to be compared with a main picture ; it would be great to update this function to provide multiple-template support, in order to increase performances in such a case. instead of giving a single template as an input, it could be possible to provide an array of template, and a trigger in another argument ; the templatematching function would stop and return a result once a template is found with an accuracy > trigger provided as an argument.
+
+fft on the main picture would be performed only once, as a matter of fact performances would be increased approximately by a factor of 2.
+```
+## history
+##### anna kogan on 2013-02-18 10:43
+
+```
+hello baptiste,
+thank you for reporting the issue. if you could implement the feature yourself, a patch or pull request in the github repo: http://opencv.org/opencv-pull-requests-test-results.html would be highly appreciated!
+-   target version set to 3.0
+-   priority changed from high to normal
+-   assignee set to baptiste chinon
+-   category set to imgproc, video
+```
+##### cosmin boaca on 2014-01-31 14:22
+
+```
+hello, 
+
+i would be glad to implement this feature, but i need some help. 
+1. it's about templatematching from cv::cuda namespace ?
+2. if answer to 1 is yes, then how should i handle multiple templates using inputarray parameter and how can i check the accuracy of a match ?
+```
+##### vladislav vinogradov on 2014-02-02 12:58
+
+```
+hello cosmin,
+
+your help would be highly appreciated!
+
+in current version, @matchtemplate@ (both cpu and cuda) returns map of comparison results, which should be passed to @minmaxloc@:
+
+<pre>
+matchtemplate(image, templ, result, method);
+minmaxloc(result, &minval, &maxval, &minloc, &maxloc);
+// final location - minloc or maxloc (depending on method)
+</pre>
+
+but, if i understand correctly, baptiste suggests adding new method, which will compare input image with several templates and return the first result with an accuracy > threshold. something like:
+
+<pre>
+void matchtemplate(inputarray image, const vector<mat>& templs, point& loc, int& templind, double threshold, int method);
+</pre>
+```
+##### cosmin boaca on 2014-02-06 14:35
+
+```
+hello,
+
+sorry for my delayed answer, i had some exams this week.
+ i can't figure out how to use the existing functions, and not compute the dft on the main image for every template. if i us the matchtemplate function with one parameter, this would compute the dft for every template and that would be no optimization. the only solution i have in mind is like this:
+
+i could add some mat* imagedft=0 parameter to the matchtemplate function, and if this parameter is not null and have the proper dimensions i can use it as the dft for the main image, otherwise i would compute it.
+
+if you have any better idea i would like to hear it.
+```
+",major,minor
+proposal: reflect/v2: rename structfield.anonymous to embedded,"in go-1, we have:
+
+```
+$> go doc reflect structfield 
+type structfield struct {
+	// name is the field name.
+	name string
+	// pkgpath is the package path that qualifies a lower case (unexported)
+	// field name. it is empty for upper case (exported) field names.
+	// see https://golang.org/ref/spec#uniqueness_of_identifiers
+	pkgpath string
+
+	type      type      // field type
+	tag       structtag // field tag string
+	offset    uintptr   // offset within struct, in bytes
+	index     []int     // index sequence for type.fieldbyindex
+	anonymous bool      // is an embedded field
+}
+    a structfield describes a single field in a struct.
+```
+
+the `anonymous` field is a bit ambiguous or at least misleading.
+
+for go-2, rename it as `embedded`.
+
+(see: https://golang.org/cl/35732/ for context)
+",minor,major
+composition root pattern,"### description:
+the composition root design pattern is a method of organizing code to ensure that all dependencies are created in a single location within an application. this helps manage dependencies more effectively, improve testability, and promote a clear separation of concerns. by centralizing the creation of dependencies, the composition root pattern ensures that an application's object graph is constructed in a consistent manner.
+
+**main elements of the pattern:**
+1. **centralized dependency creation**: all dependencies are instantiated in a single location, typically at the application's entry point.
+2. **dependency injection**: dependencies are injected into classes rather than being created within those classes, supporting inversion of control (ioc).
+3. **separation of concerns**: ensures that the construction of objects and their usage are separate, enhancing maintainability and testability.
+
+**references:**
+- [composition root - mark seemann](https://blog.ploeh.dk/2011/07/28/compositionroot/)
+- [dependency injection principles, practices, and patterns](https://www.manning.com/books/dependency-injection-principles-practices-patterns) by mark seemann and steven van deursen
+- [project contribution guidelines](https://github.com/iluwatar/java-design-patterns/wiki)
+
+### acceptance criteria:
+1. implement the composition root pattern in the project, ensuring all dependencies are instantiated in a single location at the application's entry point.
+2. demonstrate the use of dependency injection to provide these dependencies to various components of the application.
+3. ensure that the implemented pattern adheres to the project’s contribution guidelines and includes relevant documentation and examples.
+",minor,major
+bring back cv::convertscale,"it was replaced with `mat::convertto` which is not accessible from the python bindings.
+",major,minor
+go-to-implementation & class names,"i have started to implement ""go-to-implementation"" by consumming tsserver ""implementation"" command inside eclipse to do the same thing than java:
+
+![](https://cloud.githubusercontent.com/assets/1932211/14764578/3b90dc6c-09bd-11e6-83ba-722ffad94e11.png)
+
+see https://github.com/microsoft/typescript/issues/8268
+
+the tsserver ""implementation"" command returns list of filespan (file, location)) but not the text of the implemented class (""myservicea"", ""myserviceb""). if you see the below screenshost, it should be really cool to have too the name of the classes which implement the interface.
+
+many thanks
+",minor,major
+keyword arguments passed to module's __call__ aren't forwarded to the hooks,"our current signature of the nn forward hook is `(module, input, output)` (where `input` and `output` are tuples), so there's no good way to pass kwargs to them (can't append to input, because dicts are unordered, passing as kwargs seems quite inconvenient for the user).
+
+cc @alband @mruberry @jbschlosser @walterddr @kshitij12345",minor,major
+bubbling / propagation of events throughout the display list,"hi there!
+
+what do you guys think about having bubble/propagation of events throughout the display list? it could work exactly the way it works for dom events: https://dom.spec.whatwg.org/#dom-event-bubbles
+
+i'm developing a gui in which a deep node triggers a mouse event, and i'd like to have the listener on a parent node to deal with that, as follows the representation:
+
+```
+scene
+    > object3d ~> listens to ""click"" event
+        > object3d
+            > object3d
+            > object3d ~> triggers the ""click"" event
+```
+
+the implementation could be something similar to this:
+
+``` javascript
+three.object3d.prototype.dispatchevent = function (event) {
+  three.eventdispatcher.prototype.dispatchevent.apply(this, arguments);
+  if (event.bubbles && this.parent) {
+    this.parent.dispatchevent(event)
+  }
+}
+```
+
+note that `bubbling` is `false` by default when instantiating dom events. in case we implement this feature in three.js this wouldn't be an overhead.
+
+looking forward to know your thoughts about this.
+cheers!
+",minor,major
+site request: nos.nl.,"for example, [this url](http://nos.nl/artikel/2005405-rutte-meer-openheid-financi-n-navo.html) contains one video on the right-hand side of the screen. it would be nice if `youtube-dl` would notice that, and subsequently download the video.
+
+thank you.
+",major,minor
+:term buffer does not set '[ and '] marks correctly,"## expected behaviour
+
+when `:term` buffer contents change, the `'[` and `']` marks should be set to something reasonable.
+
+see http://stackoverflow.com/a/38247473/152142.
+
+related: https://github.com/neovim/neovim/issues/8807",minor,major
+clean up test data,"transferred from http://code.opencv.org/issues/2722
+
+```
+|| kirill kornyakov on 2013-01-21 13:43
+|| priority: normal
+|| affected: none
+|| category: infrastructure
+|| tracker: feature
+|| difficulty: none
+|| pr: 
+|| platform: none / none
+```
+## clean up test data
+
+```
+on a weekly opencv meeting we decided, that we need to clean & minimize test data. here are tasks selected for the hackathon:
+# remove unused images and duplicated files (cascades)
+# look at large files and decide if we need the at all
+# make tests to use the same input images, i.e. stitching images can be used by feature2d tests
+# remove auto-generated images, but if only their size is large
+```
+## history
+##### vadim pisarevsky on 2013-01-24 17:54
+
+```
+-   assignee deleted (vadim pisarevsky)
+```
+##### kirill kornyakov on 2013-02-14 08:08
+
+```
+-   target version set to 2.4.5
+```
+##### andrey kamaev on 2013-04-01 09:56
+
+```
+-   target version changed from 2.4.5 to 3.0
+```
+",major,minor
+expose backend selection and cudnn settings to the end user,"this is needed for the advanced user, where one might need to choose a specific backend, or a particular algorithm / mode in cudnn.
+
+
+cc @csarofeen @ptrblck @xwang233",minor,major
+"autoindent inserts extra undo item, requires double undo after paste","- vscode version: 1.14
+- os version: macos 10.12.5
+
+here's an example of pasting something, then hitting cmd-z to undo. as you can see, it first undoes one indentation, then undoes the paste. that's not right, since my paste was a single command, so a single undo should undo it.
+
+![vsc](https://user-images.githubusercontent.com/50314/28082497-eee3dfe0-6672-11e7-998a-8715249ec60b.gif)
+
+steps to reproduce:
+
+1. copy something.
+2. go into a block that has a deeper indentation level.
+3. hit cmd-v.
+4. hit cmd-z.
+5. the paste remains, but one indent level is subtracted.
+
+reproduces without extensions: yes",major,minor
+runtime: remove implementation restriction on channel element size,"<pre>it appears that gc and the runtime currently disable channel elements to be over 64kb:
+
+    <a href=""http://play.golang.org/p/_avwt-qiud"">http://play.golang.org/p/_avwt-qiud</a>
+
+but i see nothing about this (allowed?) implementation restriction in the spec, despite
+the spec calling out a number of other implementation-allowed restrictions.</pre>
+",major,minor
+:colorscheme - no syntax highlighting when changing colorscheme,"start with a colorscheme - like monokai, all tags are highlighted, everything works.
+![2015-12-08-210804_406x246_scrot](https://cloud.githubusercontent.com/assets/7141867/11659850/5d23fc08-9df0-11e5-91e0-64ca35566213.png)
+
+now change to a heavier colorscheme - one which defines more syntax rules (like solarized or papercolor). 
+![1](https://cloud.githubusercontent.com/assets/7141867/11659864/66c142de-9df0-11e5-94cd-403152c588d5.png)
+everything still works.
+
+now switch back to the 'lighter' colorscheme (in this case monokai) - very few tags are highlighted. even strings are not highlighted properly.
+![3](https://cloud.githubusercontent.com/assets/7141867/11659870/6dfce972-9df0-11e5-873c-8afe353f98d7.png)
+
+on further digging, i found an [old stackoverflow link](http://stackoverflow.com/questions/12915797/gvim-remove-syntax-highlighting-groups).
+there @xolox gave an explanation to this problem and a possible solution.
+
+can this problem be solved ?
+if not, can :colorscheme be remapped to some function like `xolox#colorscheme_switcher#switch_to()` from [xolox/vim-colorscheme-switcher](https://github.com/xolox/vim-colorscheme-switcher) ?
+",major,minor
+"fix startup files (.profile, .bashrc, .bash_profile, etc.)","looking through the issues, it looks like there are a lot of people (myself included) that need the startup to be included in `~/.bash_profile` instead of `~/.bashrc`. i know that there's a plethora of startup profile dotfiles, operating systems, and shells to consider when installing a cli tool like nvm. the number of [related issues already filed](https://github.com/creationix/nvm/labels/installing%3a%20profile%20detection) is strong evidence of the complexity.
+
+after some research, i think the `rvm` project has a good idea. this project updates startup files to run an rvm startup script on login just like `nvm`. [here's how they do it](https://github.com/rvm/rvm/blob/master/scripts/functions/installer#l1163-l1165):
+1. [compile a list of files where startup commands _may_ exist](https://github.com/rvm/rvm/blob/master/scripts/functions/installer#l1023-l1026).
+2. [pick _preferred_ locations for startup commands](https://github.com/rvm/rvm/blob/master/scripts/functions/installer#l1030-l1032).
+3. [build list of files _already containing_ startup command using list from step 1](https://github.com/rvm/rvm/blob/master/scripts/functions/installer#l1034-l1051) - ignore the `found_rc` (see note below).
+4. [remove startup commands from all files from step 3](https://github.com/rvm/rvm/blob/master/scripts/functions/installer#l1113-l1124).
+5. [add startup commands to all files from step 2](https://github.com/rvm/rvm/blob/master/scripts/functions/installer#l1125-l1148).
+
+note: the `rvm` installer also does steps 2-5 for files related to `$path`, but it doesn't look like that's necessary for `nvm`, so i've omitted those steps.
+
+the result of this process is you may end up with extra dotfiles you never use (like `.mkshrc`), but everything should still work properly. we could print a list of new files at the end of installation so the user can delete ones that aren't relevant if they care.
+",minor,major
+`nvm install 0.6.21` installs `v0.6.21-pre`,"related to #509, `nvm install 0.6.20` installs a node which reports the right version, but `nvm install 0.6` or `nvm install 0.6.21` installs a node which reports `v0.6.21-pre`.
+",minor,major
+cmd/compile: move arch-specific rewrite rules and ops into arch-specific packages,"right now, all the .rules files, all the generated code, and all the ops are in package ssa. this monolith has a few downsides: it seems a bit semantically incorrect, and it contributes to issues like #20084, and it makes rebuilding the compiler slower when working on the ssa package.
+
+i'd like to move all the arch-specific stuff into cmd/compile/internal/arch. this is non-trivial and does have costs. rough proposed plan:
+
+1. export all functions used by rewrite rules, so that they can be called from outside package ssa. there's a lot of this, including api surface we might normally keep private.
+
+2. everywhere we refer to arch-specific ops in package ssa, add some form of generalization.
+
+3. set up registration hooks for the value and block rewriters, must as we do now for ssamarkmoves.
+
+4. move .rules and ops files to package ssa and teach rulegen about that. within the generated files, do `import . ""cmd/compile/internal/ssa""` to avoid having the teach rulegen to do `ssa.newvalue` for arch rules but just `newvalue` for generic rules. this will also reduce churn in the rules files themselves.
+
+i think that's all that needs doing, but we might find more along the way; i started on this but it was big enough i wanted to discuss first.
+
+comments?
+
+cc @mdempsky @bradfitz @randall77 ",major,minor
+x/tools/refactor/rename: fails if cgo build would fail,"i have some cgo_cflags and cgo_ldflags settings i have to use to build a project i have, but gorename inside emacs doesn't have access to those. 
+
+gorename fails on this project (and ones that depend on it) because it cannot find the c headers. however, gorename doesn't support cgo and so doesn't really need to inspect those headers.
+
+it would be nice for rename to not care about cgo so that we didn't have to mess with cgo's env variables for each project (esp since some might, in rare cases, have conflicting needs).
+",minor,major
+x/net/http2: testtransportflowcontrol takes 31 seconds on openbsd,"testtransportflowcontrol takes 31 seconds on openbsd, but 1.8 seconds on the same hardware on linux.
+
+why?
+
+/cc @tombergan who suspects relation to #15899
+/cc @mdempsky @4a6f656c ",minor,major
+uwp game on xbox receives mysterious inputkey events,"**operating system or device - godot version:** uwp(xbox), godot 2.2
+
+
+**issue description:**
+although i'm just using the xbox controller, my code is printing inputkey events everytime i press any button or move the sticks in the controller.
+the scancode is: 33554431, which seems to be a very strange code :)
+",major,minor
+rpc commands always defined using f-args,"(subverting issue template as it doesn't seem to apply)
+
+currently, all commands defined via the rpc interface have to use f-args as the input method for the arguments, see https://github.com/neovim/neovim/blob/fcc9d999670c6fb29ac01e9c8d0a7e787ccfabea/runtime/autoload/remote/define.vim#l58
+
+it could be useful to use the others, e.g. `<args>`, `<q-args>` etc.
+
+it could be made part of the api, and then exposed by the rpc clients for command definition.",minor,major
+double click after curly brace to select the content,"this is a feature-request. 
+
+a common use case for me in eclipse, is to double click on the right after a brace or a curly brace, to select all the content inside it. it's a fast way to select, indent, remove the content. it's a lot more handy to see the ending curly brace (especially for js and other functionnally langugage). 
+
+![www gifcreator me_zovlan](https://cloud.githubusercontent.com/assets/3749428/16766721/07e53fda-483c-11e6-91dd-f108628db010.gif)
+",major,minor
+support peek/pop on ios,"once we have 3d touch support (https://github.com/flutter/flutter/issues/4838) we can then enable developers to build ""peek/pop"". see http://www.apple.com/iphone-6s/3d-touch/ for more.
+",major,minor
+consider exposing an opaque component path somehow,"this is something i've thought about in regard to focus, hover and selection.
+
+if you implement hover as a top level state value with the currently hovered root component as `hoverid: component` and currently focused component as `focusid: component`.
+
+now anything in between gets rerendered and can respond to those things changing. however, that also means that everything gets rerendered. not just the previous and next path.
+
+the ideal would be that you store the path to that component, or extract the path from internal state.
+
+that way we can quickly rerender only the previous and next path, while still letting anything in between react to focus/hover changing.
+
+maybe this is more generally useful.
+
+selection is a bit special because it might need to rerender anything in between two paths but that can also be optimized similarly - by checking if any child node corresponds to a start and end path and anything between is selected or unselected.
+",minor,major
+cmd/compile: turn nilcheckelim into branchelim,"nilcheckelim is effective and fast, but only eliminates nil checks. there are other kinds of duplicate branches that it would be nice to also elide.
+
+for example, consider code like:
+
+``` go
+func f_ssa(e interface{}) int {
+  if e.(int) < 0 {
+    return -1
+  }
+  return e.(int) * 2
+}
+```
+
+each of the type assertions will generate a branch to check e's dynamic type, but the subsequent checks are unnecessary, and could be eliminated with very similar logic to nilcheckelim. code like this, in which an interface is type asserted repeatedly, shows up in the compiler, so it is not theoretical.
+
+i'd expect the souped-up optimization to also handle (silly) code like:
+
+``` go
+func f_ssa(i int) int {
+  var x int
+  if i < 3 {
+    x += 1
+  }
+  if i < 3 {
+    x += 2
+  }
+  return x
+}
+```
+
+(the compiled code should only have one branch.)
+
+/cc @randall77 @tzneal @dr2chase 
+",minor,major
+forbes video download (hosted on brigthcove),"possible to add? example: http://www.forbes.com/video/5118388570001/
+",major,minor
+exposed / compromised (must sweep) / used / imported (?) flags on addresses,"it was pointed out to me that some people have made the mistake of sending coins to addresses which generated by their wallet prior to encryption simply because they're at the top of their address list and they were engaging in the bad practice of reusing addresses.
+
+in git the receive interface does a much better job of discouraging reuse, but users still can— and when they do they receive no guidance about which of their prior addresses were exposed by being left unencrypted.
+
+might it be reasonable to have a set of flags that can show up in the list signifying addresses which are ""exposed"" meaning that they date from a prior encryption key?
+
+likewise, i know of at least one incident where a user randomly picked a key they'd imported from a third party as a key to receive funds and the funds were stolen, a flag indicating that the key was imported would have been helpful.
+
+along these lines, if we ever get around to having a auto-sweeping feature, might it make sense to have a ""this wallet is compromised"" button that rekeys, forces a backup, and then marks all existing addresses as compromised which flags them for automatic sweeping?
+",major,minor
+recursive traits should be allowed when boxing,"the following should work:
+
+``` rust
+
+trait future<t> {
+    fn take(self) -> t;
+}
+
+trait stream<t>: future<option<(t, box<stream<t>>)>> {
+}
+
+pub fn main() {
+    println!(""zomg"");
+}
+```
+",major,minor
+how can i implement ts.compileroptions in a class?,"![image](https://cloud.githubusercontent.com/assets/937933/17079355/a476d0be-50db-11e6-880f-7a92f3eabdbf.png)
+
+``` typescript
+class implements ts.compileroptions {
+}
+```
+",major,minor
+opencv cheat sheet in python,"transferred from http://code.opencv.org/issues/4036
+
+```
+|| eduard feicho on 2014-12-01 12:50
+|| priority: normal
+|| affected: none
+|| category: documentation
+|| tracker: feature
+|| difficulty: 
+|| pr: 
+|| platform: none / none
+```
+## opencv cheat sheet in python
+
+```
+hi,
+i think it would be really useful to have something like the opencv cheat sheet, but instead of c++ having it in python.
+i find myself quite often confused about how to do things using numpy, so it would be a great help for the basic stuff.
+```
+## history
+##### steven puttemans on 2014-12-01 13:26
+
+```
++1 for this! would definately be an improvement. what about auto generating cheatsheets for `java / python / matlab`? is that possible? afaik the cheatsheet is manually created now and then by a volunteer.
+```
+",major,minor
+--target should ignore the machine part of the triplet in most cases,"currently, rustc accepts a limited set of --target values. those match _some_ of the values one can get out of the typical `config.guess`, but for most platforms, the machine/manufacturer part of the target triplet should be ignored, or allowed to be omitted. (the output of config-guess is of the form `cpu_type-manufacturer-operating_system` or `cpu_type-manufacturer-kernel-operating_system`)
+
+for example, the linux x86_64 target for rustc is `--target=x86_64-unknown-linux-gnu`.
+some time ago, `config.guess` would have returned that. nowadays, it returns `x86_64-pc-linux-gnu`.
+clang accepts both, as well as the shorter form: `--target=x86_64-linux-gnu` (in fact, it's very lax, `--target=x86_64-foo` works too).
+a typical cross gcc toolchain will come as `x86_64-linux-gnu-gcc` too.
+",major,minor
+[req] e-learning udacity.com,"course page: https://www.udacity.com/course/viewer#!/c-ud032/l-698949179/m-762588556
+",major,minor
+can character-based caching remove the memory manager from animationmixer?,"##### description of the problem
+
+is there a way to remove the memory manager from the animationmixer?  the memory manager is responsible for a large part of that code base.  if we just made people pre-assign clips/actions to their characters, and then just not enable those clips/actions, the characters could act as their own caches -- which is generally the main use case.  this would simplify the animationmixer and remove the main need for the memory manager as i understand it.
+##### three.js version
+- [x] dev
+- [x] r76
+- [ ] ...
+##### browser
+- [x] all of them
+- [ ] chrome
+- [ ] firefox
+- [ ] internet explorer
+##### os
+- [x] all of them
+- [ ] windows
+- [ ] linux
+- [ ] android
+- [ ] ios
+##### hardware requirements (graphics card, vr device, ...)
+",minor,major
+cmd/compile: escape analysis of interface calls to non-exported method names,"consider this go source:
+
+```
+package p
+
+import ""fmt""
+
+type a int
+func (a) f(x *int) { fmt.println(""a"", *x) }
+
+type b int
+func (b) f(x *int) { fmt.println(""b"", *x) }
+func (b) g() {}
+
+type fer interface { f(x *int); g() }
+
+func h(f fer) {
+    i := 42
+    f.f(&i)
+}
+```
+
+at the f.f(&i) call site in h, we can't be sure exactly what method will be called.  however, since it's an unexported method name, it must be implemented by a method in the same package.  consequently, if we know that all candidate methods in the package are non-escaping (such as a.f and b.f are), we can still be sure that f.f(&i) is a non-escaping call.
+
+note that we still have to consider a.f even though a itself doesn't implement fer, because a downstream package could do something like:
+
+```
+package q
+
+import ""p""
+
+type x struct { p.b }
+type y struct { p.a; x }
+
+func z() {
+    p.h(y{})
+}
+```
+
+there are probably refinements that could avoid this though.
+
+i happened to notice this because of package net's ""exchange"" function, which calls the unexported tcpconn.dnsroundtrip or udpconn.dnsroundtrip methods.  i haven't investigated how common this situation is though.
+
+/cc @dr2chase @alandonovan 
+",minor,major
+`tf.dynamic_stitch` gradient is incorrect,"### if possible, provide a minimal reproducible example (we usually don't have time to read hundreds of lines of your code)
+
+original reproduction code (tensorflow 1.0)
+``` python
+import tensorflow as tf
+
+x = tf.zeros((1, 3))
+y = tf.dynamic_stitch([[0], [0]], [x, tf.ones((1, 3))])
+
+with tf.session() as sess:
+    print(""y"")
+    print(sess.run(y))
+
+    analytic, numeric = tf.test.compute_gradient(x, (1, 3), y, (1, 3))
+    print(""analytic"")
+    print(analytic)
+    print(""numeric"")
+    print(numeric)
+```
+updated reproduction code (tensorflow 2.16)
+``` python
+import tensorflow as tf
+
+x = tf.zeros((1, 3))
+
+analytic, numeric = tf.test.compute_gradient(
+    lambda x: tf.dynamic_stitch([[0], [0]], [x, tf.ones((1, 3))]), [x]
+)
+print(""analytic"")
+print(analytic)
+print(""numeric"")
+print(numeric)
+```
+
+gives output
+```
+y
+[[ 1.  1.  1.]]
+analytic
+[[ 1.  0.  0.]
+ [ 0.  1.  0.]
+ [ 0.  0.  1.]]
+numeric
+[[ 0.  0.  0.]
+ [ 0.  0.  0.]
+ [ 0.  0.  0.]]
+```
+
+the numeric gradient correctly shows that `x` has no impact on `y` (since the value of `x` is completely overwritten by a constant in the `dynamic_stitch`).  the analytic gradient is incorrect; it seems like the gradient calculation in `dynamic_stitch` does not handle the case where there are duplicate indices being merged.
+",major,minor
+ui.window.locale should be set on startup,"currently, it's not, which means we waste 16ms in every app with a materialapp because we spin an entire frame waiting for the locale to be set.
+
+this requires some redundant pumps in tests, too.
+",minor,major
+docs for traits get duplicated because of different types,"[f32](http://doc.rust-lang.org/nightly/std/primitive.f32.html#) for example essentially supports traits like `add` which have multiple copies which aren't duplicates but seem repetitive because they are essentially very similar:
+#### currently:
+
+``` rust
+impl add<f32> for f32
+    type output = f32
+
+    fn add(self, other: f32) -> f32
+
+impl<'a> add<f32> for &'a f32
+    type output = f32::output
+
+    fn add(self, other: f32) -> f32::output
+
+impl<'a> add<&'a f32> for f32
+    type output = f32::output
+
+    fn add(self, other: &'a f32) -> f32::output
+
+impl<'a, 'b> add<&'a f32> for &'b f32
+    type output = f32::output
+
+    fn add(self, other: &'a f32) -> f32::output
+```
+
+it would be very nice if these could be combined so the repetition is less drastic. i've only come up with 2 options so far but maybe there are more.
+#### option a:
+
+this is tricky to improve because all are different. one course would be to collapse all but the last by default which would make it look like the following block. this would also aid https://github.com/rust-lang/rust/issues/21660 . this makes all the types clear but only shows one method because all the methods will be the same.
+
+``` rust
++impl add<f32> for f32
++impl<'a> add<f32> for &'a f32
++impl<'a> add<&'a f32> for f32
+-impl<'a, 'b> add<&'a f32> for &'b f32
+    type output = f32::output
+
+    fn add(self, other: &'a f32) -> f32::output
+```
+#### option b:
+
+use some type of shorthand to include all options (like globbing). this should expand to specifics if desired i suppose.
+
+``` rust
+impl<.*> add<.* f32> for .* f32
+    type output = f32.*
+
+    fn add(self, other: .* f32) -> f32::output
+```
+
+---
+
+option a looks the most practical. i'm trying to think of a better way to include only one but still allow the specifics to be examined but haven't come up with any better ideas.
+",minor,major
+"cmd/compile: ssa, don't re-copy spilled output parameters","``` go
+func f(a []int) (s int) {
+    for _, x := range a {
+        s += x
+    }
+    runtime.gc()
+    return
+}
+```
+
+the ssa-generated code does this after runtime.gc():
+
+```
+        movq    """".s+32(fp), bx
+        movq    bx, """".s+32(fp)
+```
+
+we should teach the compiler that it doesn't need to move the result to the output slot if was already spilled to the correct slot.
+",minor,major
+add a --play option,"a common case is just wanting to watch the downloaded video. for that, we should add an option to play the video.
+
+for starters, it can be a simple post-processing action. however, i think the user experience would be better if we'd have an option to either autoplay once a certain buffer (say, 2mb) has been written to disk. we may also tee the output to a pipe and pass _that_ to the video player in order for the video player not to stop playback once it reaches the current number of downloaded bytes.
+",major,minor
+testing doesn't sufficiently cover client/cluster version skew,"as we're moving forward with the `v1.1` release, we're realizing we don't have sufficient test coverage for version-skew between clients and clusters.  recently, we put in place upgrade tests:
+
+```
+  # kubernetes-upgrade-gke-1.0-1.1
+  #
+  # this suite:
+  #
+  #1. launches a cluster at release/latest-1.0,
+  #2. upgrades the master to ci/latest-1.1
+  #3. runs release/latest-1.0 e2es,
+  #4. upgrades the rest of the cluster,
+  #5. runs release/latest-1.0 e2es again, then
+  #6. runs ci/latest-1.1 e2es and tears down the cluster.
+```
+
+when these tests run, the client version always matches the e2e version, so in `3.` and `5.` the client is a `1.0` client, in `6.` it's a `1.1` client.
+
+problems:
+- [ ] we don't cover the reverse case, where we have a `1.1` client working a `1.0` cluster.
+  - this is tough because we don't expect `1.1` tests to pass against a `1.0` cluster, so we'd, in theory, have to run `1.0` tests through a `1.1` client, which is tough.
+
+possible solutions:
+- [x] run `1.1` tests against a `1.0` cluster, and see what breaks (#16041);
+- [ ] figure out a way to link different versions of the tests and client library together;
+- [ ] figure out a way to run the test-command suite against a live, version-skewed cluster.
+
+this is _not_ a `v1.1` blocker.
+
+please add other cases we don't catch, so we have a sense of where we need to go.
+",major,minor
+add support for adobe pass auth tv provider charter communications,"i'd like to request support for the msos under tveverywhere. there seems to be a relation to watchtveverywhere.com ( #10709), but some providers don't overlap.
+
+specifically, i'm looking for support for charter communications, soon to be charter/time warner/spectrum. i can provide credentials for this if needed.
+
+http://www.tveverywherenow.com/#get-started-dest
+",major,minor
+add rustc --emit=link-info for staticlib link-line output,"when linking rust into c++ projects, i use `rustc --crate-type=staticlib` to generate a static library which i can link into the overall project. since there's no standard for transitive dependency declaration in the c abi for static libraries, rustc prints out a list of libraries which need to be linked along with the staticlib. (https://github.com/rust-lang/rust/issues/25820#issuecomment-106480235)
+
+this is very helpful in development, but not ideal for automation. i propose adding an `--emit=link-info` option (`--emit=libs`? `--emit=ldflags`?) to write the required link line out to a file for use later, similar to `--emit=dep-info` for makefile dependency generation.
+
+order of evaluation is a little trickier than with dep-info since it has to work the first time, but this should simplify funky stderr hacks like
+
+``` make
+libfoo.a libfoo.a.out: foo/lib.rs
+    rustc -g --crate-type staticlib --crate-name foo \
+      --emit dep-info,link=$@ $< \
+      2> $@.out || cat $@.out >&2
+-include foo.d
+
+prog: rust_libs = $(shell awk '/^note: library: / {print ""-l""$$3}' libmp4parse.a.out)
+prog: prog.o libfoo.a
+    $(cxx) $(cxxflags) -o $@ $^ $(rust_libs)
+```
+
+into
+
+``` make
+libfoo.a libfoo.a.link: foo/lib.rs
+    rustc -g --crate-type staticlib --crate-name foo \
+      --emit dep-info,link=$@,link-info=$@.link $<
+-include foo.d
+
+prog: prog.o libfoo.a
+    $(cxx) $(cxxflags) -o $@ $^ $(shell cat libfoo.a.link)
+```
+",major,minor
+x/review/git-codereview: commit-msg hook doesn't play well with signed-off-by lines,"for example, git commit -s will generate this log message:
+
+```
+    test: test commit
+
+    signed-off-by: shenghou ma <minux@golang.org>
+
+    change-id: i3545610fc076ab9da46bb5ed571a49730a5075dc
+```
+
+however, it should look this instead, which is generated by the official gerrit commit-msg hook:
+
+```
+    test: test commit
+
+    change-id: i3545610fc076ab9da46bb5ed571a49730a5075dc    
+    signed-off-by: shenghou ma <minux@golang.org>
+```
+",minor,major
+x/crypto/acme/autocert: persistent cache results in stuck configuration if tos is not always accepted,"please answer these questions before submitting your issue. thanks!
+
+### what version of go are you using (`go version`)?
+1.6
+
+### what operating system and processor architecture are you using (`go env`)?
+amd64
+
+### what did you do?
+create a manager that will not accept the tos, but that does have a persistent cache. then re-use the cache with a manager that does accept the tos.
+
+### what did you expect to see?
+first manager fails to register, second manager succeeds.
+
+### what did you see instead?
+seconds manager also fails because acme.updatereg is never called.
+see #18379 for the acme side of this.
+
+",major,minor
+io: no easy way to fan out to multiple readers,"by **recv@awesam.de**:
+
+<pre>there is currently no good way to fan out from an io.reader to multiple readers. a
+use-case we commonly encounter is piping data from one reader to another, and doing some
+calculation over the piped data on the side in a goroutine.
+
+io.teereader gets you only half the way, and we found a nice solution based on that and
+io.pipe.
+
+see <a href=""http://play.golang.org/p/xbbeabdvjf"">http://play.golang.org/p/xbbeabdvjf</a> for an example, piping a .tar.gz from stdin to
+stdout, printing the tar headers to stderr along the way.
+
+would you be open to introduce a similar streamreader implementation to io/ioutils?</pre>
+",major,minor
+write tests for bare `nvm run x`,"in order to test this, i'd need to figure out some way to intercept the call to `nvm-exec`, or, to intercept its call to `exec`.
+
+from #625.
+",minor,major
+grip: the graphically represented image processing engine,"i would like to share one cool user facing implementation of opencv in a nicely bundled up application.
+i'm the developer behind [grip](https://github.com/wpiroboticsprojects/grip) and would like to share with everyone.
+
+the goal of this project was to build an application that non-experts could use to construct
+computer vision algorithms, and more experienced users could use to develop algorithms
+faster. given the time constraints imposed by robotics challenges like the first robotics
+competition, computer vision is often underutilized by even the most experienced players.
+we used java and opencv to implement a user interface to make rapidly developing
+vision systems easier. as a result, many teams successfully used our software in the 2016
+first robotics competition. we believe that our application could be used for further
+applications in research and education.
+
+we will be adding code generation within the next month for java, python and c++.
+
+its currently being developed with a focus on first robotics but can be useful in a variety of fields.
+
+is there a better place to post this? is there somewhere that people may find this too useful?
+[grip-mqp.pdf](https://github.com/opencv/opencv/files/440782/grip-mqp.pdf)
+",minor,major
+open session in view pattern,"### description
+the open session in view (osiv) design pattern is aimed at solving the problem of lazy loading in web applications. it allows an open persistence context for the duration of a request, enabling lazy-loaded associations to be accessed and resolved within the view layer.
+
+#### main elements of open session in view pattern:
+1. **persistence context**: maintains the session open throughout the entire request.
+2. **interceptor or filter**: manages the lifecycle of the session, ensuring it starts at the beginning of the request and is closed at the end.
+3. **lazy loading**: allows associations to be lazily loaded and accessed in the view layer without encountering `lazyinitializationexception`.
+4. **transactional boundaries**: ensures transactions are committed before the view is rendered but keeps the session open to resolve lazy-loaded associations.
+
+### references
+- [project contribution guidelines](https://github.com/iluwatar/java-design-patterns/wiki)
+- [the open session in view anti-pattern](https://vladmihalcea.com/the-open-session-in-view-anti-pattern/)
+- [open session in view pattern](https://www.linkedin.com/pulse/open-session-view-pattern-hamed-hatami/)
+
+### acceptance criteria
+1. implement an interceptor or filter to manage the session lifecycle, ensuring the session is opened at the start of the request and closed at the end.
+2. ensure that the transactional boundaries are respected, with transactions being committed before rendering the view.
+3. validate that lazy-loaded associations can be accessed in the view layer without triggering `lazyinitializationexception`.
+",minor,major
+proposal: spec: use zero receiver for value method embedded via nil pointer,"consider this program:
+
+```go
+package main
+
+import (
+	""fmt""
+)
+
+type pointer struct{}
+
+func (d *pointer) isnil() bool {
+	return d == nil
+}
+
+type danger struct {
+	pointer
+}
+
+func main() {
+	var d *danger
+	fmt.println(d.isnil())
+}
+```
+
+if a struct type embeds another struct type with pointer methods, the pointer method set of the outer struct (`*danger` in this example) includes the pointer methods of the embedded value.
+
+however, calling these embedded methods is dangerous: the mere act of computing the address of the receiver results in a nil panic (see https://play.golang.org/p/jfrcruvc6l).  (you can more clearly see that the panic occurs when computing the receiver address by using a method expression instead of actually calling the method: https://play.golang.org/p/629rz7rs6l.)
+
+this somewhat limits the usefulness of embedding for composition, as the caller must either know the concrete type in which the struct is embedded (https://play.golang.org/p/3ciua4kioq) or use reflection to check whether the concrete pointer is nil before making the call (https://play.golang.org/p/zgdh6hk5u9).
+
+this style of embedding could be made significantly more useful by defining pointer methods on embedded structs to receive `nil` if the pointer to the struct in which they are embedded is `nil`.
+
+specifically, i propose to add the following sentence to https://golang.org/ref/spec#struct_types:
+> * if s contains an anonymous field *t, the method sets of s and *s both include promoted methods with receiver t or *t.  __evaluating a call or method value of a promoted method with a nil *s receiver evaluates the corresponding *t method with a nil *t.__
+
+the spec is currently a bit vague on the exact semantics of calls to methods obtained by embedding.  this proposal certainly represents a change to the language as implemented, but it is not obvious to me whether it is a ""language change"" in the go 1 compatibility sense or merely a spec clarification.",major,minor
+"unify doctor checks and code that locates binary artifacts (executables, sdks)","a lot of the tool presence/version checks we perform in `flutter doctor` would be useful to perform before steps that involve invocation of those tools.
+
+examples from the ios side include checking xcode and cocoapods presence/version and presence of the python six module before ios build/run.
+
+one option would be to factor out a tool class that has the ability to check presence/version of the tool and how to run it, then use this in the build step and in doctor.",minor,major
+have ctrl+click work the same way as in visual studio,"we use  dblclick lbtn to select a word, but using ctrl +lbtn  is a good way,
+in vs studio we could do the following:
+1. basic:  press  ctrl and click a word,  the word is selected.
+2. advanced: when a word is selected ,  press ctrl+shift and select another word,   so we could select from the start of the  first word to the end of the last word
+3.advanced: with ctrl down, we clicked a word, don't release the lbtn, move the mouse to  some where in the middle of the next word ,  the whole next word will be  selected.  this is the same effect as the  ""ctrl + right""
+",major,minor
+nvm uninstall fails due to permissions/globally installed modules via sudo,"steps to reproduce:
+1. `nvm ls` lists: `.nvm`, `v0.10.26`, `->  v0.10.29`
+2. `nvm uninstall v0.10.26`
+
+what happens: `v0.10.26` is not removed. `nvm ls`  still lists: `.nvm`, `v0.10.26`, `->  v0.10.29`.
+
+what should happen: `v0.10.26` should be removed.
+
+platform:
+
+```
+node v0.10.29
+grunt-cli v0.1.13
+grunt v0.4.5 
+```
+",major,minor
+use standard `x` functions on platforms that support them. (strlcpy/stpcpy/etc),"the use of `x` functions inhibits compiler optimizations by hiding the implementation in isolated compilation units. for example, the compiler can theoretically turn
+
+``` c
+strcpy(dst, a);
+strcat(dst, b);
+strcat(dst, c);
+```
+
+into
+
+``` c
+strcpy(stpcpy(stpcpy(dest, a), b) c);
+```
+
+but not if `xstpcpy` (as we use) has external linkage. the result is that `strlen` must be called on `dst` for every `cat`. attributes help, but not in this specific instance.
+
+there has been some prior discussion on this:
+
+@aktau said (https://github.com/neovim/neovim/pull/1134#issuecomment-54714027)
+
+> we should try to define stpcpy on platforms where it doesn't exist, and use the platfrom-supplied stpcpy if possible. it's faster and the compiler knows what these functions do (same for mempcpy, for example).
+> 
+> one ""way"" of doing that would be:
+> 
+> ``` c
+> #ifndef have_stpcpy
+> char *stpcpy(...)
+> {
+>   // ...
+> }
+> #endif
+> ```
+
+@zyx-i said (https://github.com/neovim/neovim/pull/1134#issuecomment-54724403)
+
+> > but i'm not sure how this would interact with the automatic declarations generator, if at all. any reason to believe changes are necessary, @zyx-i?
+> 
+> for a number of reasons (one of them is that i use lots of macros for defining functions) declarations generator is run on a preprocessed file, so it is fine as long as have_stpcpy is defined either with -d argument known by cmake at the makefile generation stage or in some included file.
+> 
+> afair we already have some config.h file generated by cmake, that includes some similar things. just listing the possibilities: generated makefile will embed all globally enabled -d definitions known to cmake (except for include_generated_declarations), as well as -i arguments so that preprocessor works, thus both locations are fine; even though i have strong opinion about where it will actually land without my advice.
+
+obviously this does not apply to the `xmalloc` family, nor `xmemdup(z)`, but it does to `stp(n)cpy`, `strlcpy`, `strlcat`, and at least one function i'd like to add to `memory.c`, `strchrnul` (https://github.com/splinterofchaos/neovim/commit/9a2cd2e4a417c2f52023d31eba792ceab656d2bd). in some cases, when `backslash_in_filename` is not defined, we could use [`strcasecmp`](http://linux.die.net/man/3/strcasecmp). 
+
+glibc actually ships with bsd functions, even on linux. for example, to get access to `strchrnul` requires this:
+
+``` c
+#define __use_gnu
+#include <string.h>
+#undef __use_gnu
+```
+
+so, the question is: how could we modify the build system to detect these functions and how do we modify the source to take advantage of them, and is it worth the trouble?
+",minor,major
+soft particles,"hi guys, i was looking for soft particles for my project, but i did not find anything on that.
+
+having spent a little time and energy, i still managed to make soft particles and decided to suggest introducing it into the library as a plug-in or something like that.
+
+all the code and how it works i wrote here.
+https://discourse.threejs.org/t/soft-particles-render/504/3?u=korner
+
+it would be cool if you could do so
+
+```
+material.soft = true;
+material.softdistance = 50;
+```
+
+but the problem as i understand that it will be necessary to constantly render the texture of the depth.
+it is possible to make a condition for rendering
+
+`renderer.softrender = true;`
+
+i think there is little change, you can add it to the library :)",minor,major
+missing function expression name : naming / semantics,"assuming a function expression that toggles the visibility of `<tr>`s depending on some criteria,
+
+```
+const filterrows = function () {
+...
+}
+```
+
+`  39:23  warning  missing function expression name  func-names`
+
+i'm running into difficulty finding a name for that function expression as the rule suggests. more often it would be pure duplication of the variable in which the function is saved.
+
+any ideas on how to properly redact a meaningful name that isn't a duplicate of the variable name?",major,minor
+request to show xmib instead of percentage downloaded,"this is a feature request to show:
+[download]  36.4mib of 333mib @...
+as alternative to:
+[download]  20.5% of 213mib @...
+",minor,major
+net: lookupsrv and search domains when name is empty,"using go 1.4 on linux x86_64 (ubuntu).
+
+i called the lookupsrv function in the ""net"" package, with
+`lookupsrv(""service"", ""tcp"", """")` (empty name). 
+
+i expected this to lookup using my search domains (""_service._tcp.my.search.domain""), but it potentially seems to have queried it with an extra ""."" (""_service._tcp..my.search.domain"").
+
+is this intended? or am i just using the function in a strange way? the workaround i'm using right now is to call `lookupsrv("""", """", ""_service._tcp"")` instead. 
+",major,minor
+cmd/link: implement external linking support for ppc64/linux,"<pre>we need to fix the 9l linker to provide external linking support, so that
+-linkmode=external works on power64.
+
+this code is currently on the dev.power64 branch and should come into tip after the 1.4
+release is out.  this means writing elfreloc1, elfsetupplt, adddynsym, adddynrela, etc.,
+in cmd/9l/asm.c and doing whatever else is necessary so that (cd misc/cgo/test
+&amp;&amp; go test -linkmode=external) passes for both big- and little- endian power64.</pre>
+",minor,major
+x/exp/shiny: allow bounded types for deque,"calls to window.nextevent() and the processing of the returned event all happen in the same goroutine. for paint and size events, this can cause deque to congest with stale events.
+
+given the generic nature of type deque, one method of addressing this is to allow declaring certain event types to be bounded, in that only n instances of the given type are ever allowed to exist and for simplicity let's say n=1.
+
+in a shiny application, i only ever care about the last size and paint events, but i don't think it's appropriate to fuss over those details during any sort of iteration. if i declare a package level event, i might also want to tell deque to only store n=1 instances.
+
+to address this in an example program i wrote, i copy/pasted widget.runwindow and inserted a small fifo that exhausts deque in a goroutine but only ever stores one instance of size and paint:
+
+https://github.com/dskinner/x/blob/01a0257ede3a13250b22e5328097aa9d1a6911f5/glw/example/glwidget/main.go#l207
+
+the above isn't done at great effort as the size and paint events only fire when que is empty. a second implementation tracked what would have been que insert index and on nextevent, checked each bound type if insert index is zero or decremented, finally delivering an event from que if no bounded was sent (but this was just an example program so i removed this).
+
+providing some sort of `func (q *deque) boundtype(t)` for the simple case of n=1 has a couple ramifications/questions:
+
+* this is no longer exactly a ""deque"" as we'd begin dividing into buckets. i don't know if there's a bucket (or otherwise) queue type out there that already addresses what i'm raising, but i'd like to research that or get feedback on that before committing to any sort of proposal.
+
+* for the specific case i'm suggesting above where only the last event of a given type is ever stored, it is, i suppose, theoretically possible to never receive that event given the right sequence of events if each event takes its rightful place based on its original insert index (and not replace the first instance which would negate this). regardless, i don't feel it's appropriate to replace the first instance with the last and i'm not sure i really consider this case a practical concern.
+
+any feedback and/or thoughts for intention of deque welcomed.
+
+@nigeltao ",major,minor
+add high-level theory/guiding principles,"most people don't have the time or energy to read through the entire style guide and internalize it. additionally, there are always going to be gaps that we haven't explicitly handled.
+
+for both of these cases, i think it would be nice to add a few concise guiding principles to the document. this would allow people to essentially ""memorize these 6 ideas and you will know what to do 99% of the time.""
+
+i don't know what these principles are or should be, but i figured i would get the discussion started here.",minor,major
+inconsistency of method inputs' names within the same module,"### system information:
+- opencv version: 3.0 & 3.1
+### in which part of the opencv library you got the issue?
+
+[photo > denoising](http://docs.opencv.org/master/d1/d79/group__photo__denoise.html)
+### description
+
+photo denoising functions belonging to the `cv::cuda` namespace have different names for the same inputs used in functions belonging to the `cv` namespace (slightly different names + snake_case vs camelcase, respectively). 
+
+**`block_size`** <=> **`templatewindowsize`**
+**`search_window`** <=> **`searchwindowsize`**
+**`h_luminance`** <=> **`h`**
+**`photo_render`** <=> **`hcolor`**
+
+also, documentation needlessly varies between functions. these inconsistencies might lead to confusion.
+### additional details (example)
+
+the optional inputs to the [`cv::cuda::nonlocalmeans`](http://docs.opencv.org/master/d1/d79/group__photo__denoise.html#gafa990f16548581987e7e509b435c3648) function include the following:
+
+```
+int     search_window = 21
+int     block_size = 7
+```
+
+with the descriptions:
+
+> **`search_window`**   size of search window.
+> **`block_size`**      size of block used for computing weights.
+
+whereas in the [`void cv::fastnlmeansdenoising`](http://docs.opencv.org/master/d1/d79/group__photo__denoise.html#ga0db3ea0715152e56081265014b139bec) function within the same module, these parameters are referred-to as:
+
+```
+int     searchwindowsize = 21
+int     templatewindowsize = 7
+```
+
+with the descriptions:
+
+> **`searchwindowsize`**    size in pixels of the window that is used to compute weighted average for given pixel. should be odd. affect performance linearly: greater `searchwindowssize` - greater denoising time. recommended value 21 pixels 
+> **`templatewindowsize`**  size in pixels of the template patch that is used to compute weights. should be odd. recommended value 7 pixels
+
+i suggest standardizing the input names and the descriptions of said parameters.
+",major,minor
+ios transition from standard status bar to expanded status bar is janky,"in flutter/engine#3357, we corrected the top padding applied to account for double-height status bars on ios. while this fix ensures the padding is correct, the transition between a standard height status bar and the expanded, double-height status bar is still janky.
+
+to repro:
+1. start up a flutter app (e.g., the gallery example) in the ios simulator.
+2. enable slow animations (cmd-t). this makes what's going on a bit more obvious.
+3. toggle the expanded status bar (cmd-y).
+
+it looks like what's happening is:
+
+1. we get the status bar resize event before the transition starts, and the engine sees the view as being 20px shorter.
+2. with the view still the full display height, we re-layout the view with the new reduced height, which results in a momentary vertical *stretch* of the view contents.
+3. ios animates some kind of interpolation on the view which results in the view appearing to get *squished*.
+
+looking at individual widgets at the end of the transition, it looks to me like they might all have actually moved 20px down as desired. it would be nice if we could disable the default ios transition animation and handle this smoothly.
+
+the code in question is in [flutterviewcontroller::viewdidlayoutsubviews](https://github.com/flutter/engine/blob/master/shell/platform/darwin/ios/framework/source/flutterviewcontroller.mm#l344).",major,minor
+`-zunpretty=identified` runs too early,"```rs
+fn main() { println!(""hello world""); }
+```
+
+`rustc -zunpretty=identified`:
+
+```
+fn main() { println!(""hello world""); } /* block 4294967040 */ /* 4294967040 */
+```
+
+clearly it's useless if the `nodeid`s are all `nodeid::max_as_u32` (`4294967040` aka `-256_i32 as u32`) (i think it may just have to be removed in favour of `-zunpretty=expanded,identified` since the `nodeid`s are only assigned after macro expansion, and only correspond to elements of that ast, not the pre-expansion one).
+",major,minor
+serialization,"transferred from http://code.opencv.org/issues/379
+
+```
+|| james bowman on 2010-06-11 00:47
+|| priority: high
+|| affected: none
+|| category: python bindings
+|| tracker: feature
+|| difficulty: medium
+|| pr: 
+|| platform: none / none
+```
+## serialization
+
+```
+it would be very nice if python opencv objects were pickleable.
+
+to do this, can the load/store methods of cpp objects accept strings?
+```
+## history
+##### alexander shishkov on 2012-02-12 21:33
+
+```
+-   description changed from it would be very nice if python [[opencv]]
+    objects were pickleable. to do th... to it would be very nice if
+    python opencv objects were pickleable. to do this, ... more
+```
+##### andrey kamaev on 2012-04-05 08:49
+
+```
+-   category changed from imgproc, video to python bindings
+```
+##### vadim pisarevsky on 2012-05-29 16:00
+
+```
+-   target version set to 3.0
+```
+##### stefan r on 2012-11-28 10:22
+
+```
++1
+```
+##### maksim shabunin on 2015-04-28 13:50
+
+```
+-   difficulty set to medium
+-   target version changed from 3.0 to 3.1
+```
+",major,minor
+python bindings naming convention and packaging,"i've been working on creating automated builds (using [conda](http://conda.pydata.org/docs/)) of [opencv2](https://github.com/menpo/conda-opencv) and [opencv3](https://github.com/menpo/conda-opencv3). in particular, i am only really interested in the python bindings. however, i have a couple of questions about the design decisions for opencv's python bindings:
+### `cv2.so` is just dropped inside the python `site-packages` folder
+
+i don't think that this is good practise. it goes against standard python packaging principles and dirties the contents of the `site-packages` folder. however, i also have a concrete complaint: on windows, due to the way shared library loading is achieved, we need to drop all the `opencv*.dll` next to the `cv2.so` module. however, if another poorly packaged project also requires being dropped in the root of `site-packages`, and binds to opencv using c-extensions, it will also need these dlls. as i mentioned, i'm trying to make automated builds, and this becomes very difficult if every project needs to start dumping files into the same folder, some of which may overwrite each other. not to mention the fact that removing a package may involve cleaning up dependencies, which would include the aforementioned dlls (breaking other packages that might rely on them). therefore, **why not place the `cv2.so` inside a small python package that just exposes all the same top level modules/methods?** this would have the advantage of isolating all the dependencies and also allow easy shipping of companion pure python code with opencv, if this was ever needed.
+### opencv2 and opencv3 both use `cv2` as their namespace
+
+this one seems particularly crazy to me. since opencv3 deprecated the `cv2.cv` module, which some people require, opencv3 is not a drop in replacement for opencv2. which is fine, as long as the two are namespaced separately... but they are not. **why was opencv3 not given a new package name, such as `cv3`?** at the moment, if someone installs opencv3 over opencv2, they will lose their opencv2! this seems very strange to me. if the whole point of the major version change was to denote breaking, non-backwards compatible changes, why would you keep the same namespace? this is further aggravated by the problem mentioned above, in that the `cv2.so` will literally get overwritten if opencv3 is installed after opencv2 and vice-versa.
+
+as i said, i mostly just wanted to discuss the rationale behind these points. i understand that i do not represent a core contributor, but opencv is an amazing project and a massive boon to the python community. therefore, i would love to help steer it in a direction that made it more accessible to even more python developers by providing easy to install automated builds.
+",major,minor
+"in js, use jsdoc to specify a call's type arguments","in typescript we can specified template at function call
+
+```
+function a<t>(callback:function(t):void) { }
+a<{name:string}>(function(item) { /** item is {name:string} */ })
+```
+
+but i don't know how to force the type of its template when calling it from js file. and i can't find any clue. it seem like not possible so i want to make feature request if it don't have already
+",minor,major
+support evolving the type with assignments for expando object ,"copied from https://github.com/microsoft/typescript/issues/12278#issuecomment-261000712
+op = @abgivant
+
+i use a similar module pattern in an application i'm working on, and the lack of intellisense/definitions for those has been an issue for me as well.
+
+mine follow this basic pattern:
+```javascript
+module.exports = function(x, y, z) {
+  var exports = {};
+  exports.method = function() {
+    // something that might use x, y, or z
+  };
+  return exports;
+}
+````
+
+would it be possible to do something like include an option in the jsconfig.json file to specify a property name or list of names to track when determining module exports?
+
+maybe something like this?
+```javascript
+{
+  ""moduleoptions"": {
+    ""exportproperty"": [""exports"", ""this""]
+  }
+}
+```",minor,major
+cmd/compile: make available as a library,"it would be nice if there was an interface to the gc. i had extreme difficulty reading through the source code (maybe due to the fact it was transpiled from c), but i've come to the conclusion that it is pretty unrealistic to use the gc for anything, barring use of the go tool. how difficult would it be to give it an api and/or add it to the stdlib?
+",major,minor
+add optional iterations output to libtest benchmark,"the `ns / iter` output of libtest's benchmarking harness can hide subtle differences for fast operations (also for some programs you just want to measure throughput). could we have an option to output the number of iterations per second instead?
+
+i note that `src/libtest/lib.rs` has a `fn ns_per_iter(&mut self)` which calculates this and should be easy enough to extend.
+",minor,major
+test for api stability,"we should create a test that checks out the gallery (or some other representative app that uses lots of our apis, but this seems like the best we have today) for each past release, then tries to run its tests against the tip of tree.",minor,major
+re-exporting namespace declarations in es6 ambient declaration,"right now many declaration files take this form:
+
+``` typescript
+declare namespace mylib {
+
+}
+
+declare module 'mylib' {
+  export = mylib;
+}
+```
+
+however, there doesn't seem to be an equivalent for es6 modules:
+
+``` typescript
+declare module 'mylib' {
+  export default mylib; // this works for exporting the default, but other exported items in mylib are not considered to be named exports of the es6 module
+  export * from mylib; // this is essentially what i'm trying to accomplish
+}
+```
+",major,minor
+triggering actions.find causes active match to lose its highlight.,"- vscode version: code 1.7.1 (02611b40b24c9df2726ad8b33f5ef5f67ac30b44, 2016-11-03t13:53:14.822z)
+- os version: windows_nt ia32 10.0.14393
+
+steps to reproduce:
+
+1. in any file, highlight the text to find.
+2. trigger the `actions.find` command with the keyboard (`ctrl+f`).
+3. observe that the originally highlighted text is not highlighted in any way that distinguishes it as the active match or target for replacement.
+
+alternate steps to reproduce:
+
+1. in any file, highlight the text to find.
+2. trigger the `editor.action.startfindreplaceaction` command with the keyboard (`ctrl+h`).
+3. observe that the originally highlighted text is not highlighted in any way that distinguishes it as the active match or target for replacement.
+
+example of both steps and alternate steps shown in the following gif. in the gif, you can see that whenever the find/find+replace box is shown, the originally highlighted text is no longer marked as the active match, even though it is the active match.
+
+this is a major problem because there is no way to confirm what the very first replacement will be.
+
+![vscode-find-replace](https://cloud.githubusercontent.com/assets/623736/20039981/9d36c112-a41c-11e6-9b6c-7c8151d255c0.gif)
+
+
+",minor,major
+cannot move last cursor position when using multi-cursor,"hi,
+
+- vscode version:  1.13.1 
+- os version: macos sierra 10.12.5 
+
+i went through the options available in settings and keyboard shortcuts but didn't find an option to enable this. i also posted on so tagging `vscode` but no one seems to have an answer for this question. 
+
+is there a way to enable this option? ",minor,major
+cmd/link: linker cannot discard unused but runtime-initialized global variables,"<pre>the code.google.com/p/go.text/encoding/charmap package contains variable pairs like:
+
+var codepage437 encoding.encoding = &amp;codepage437
+var codepage437 = charmap{ /* a data table */ }
+
+encoding.encoding is an interface, so that the codepage437 variable currently requires a
+convt2i call, in a package init function. (<a href=""https://golang.org/issue/6289"">issue #6289</a> is possibly related, but even if
+that was fixed, suppose for argument's sake that codepage437 was initialized by a
+constructed-at-runtime composite literal.)
+
+because codepage437 is implicitly referenced by a package init function, the linker
+considers it used by any program that imports that package, even if it otherwise doesn't
+refer to codepage437. the linker thus can't drop the unused data table (and maybe other
+related metadata like pclntab??), and likewise for the n other encoding.encoding
+implementations in that package.</pre>
+",minor,major
+factorized output layer,"does pytorch provide a [factorized output layer](https://arxiv.org/pdf/1412.7091.pdf) in `nn` module? it computes the gradient much faster in sparse output space. this will benefit a lot in nlp experiments.
+
+i can propose such a layer if there isn't one.",minor,major
+fog gradients / different colors,"hello,
+
+is there any way to have gradient color for the fog or have the fog color change in certain areas of the fog, instead of fog being a single color?
+
+thanks,
+reece
+",major,minor
+dropdownbutton.style is busted,"dropdownbutton.style is intended to handle the special font size (and style?) of drop down buttons in data tables: https://material.google.com/components/data-tables.html#data-tables-specs
+
+however, right now it breaks if you change the theme at the same time.
+",minor,major
+cvundistortpoints returns imprecise results,"cvundistortpoints calculates the result iteratively. currently, the number of iterations is five (hardcoded), which is not enough to get the correct result.
+",minor,major
+optimizing cvreprojectimageto3d(),"as part of an api release, i have published a method for projecting a disparity map to 3d points, similar to cvreprojectimageto3d(). unlike the opencv implementation, my approach makes use of sse2 or avx2 to gain significant speed-ups. the code has been published under the mit license, which should allow a re-distribution under the bsd license (and if not, you have my permissions).
+
+code for the method in question can viewed here:
+http://nerian.com/products/sp1-stereo-vision/api-doc/reconstruct3d_8cpp_source.html
+
+the entire api source code can also be downloaded from this location:
+http://nerian.com/products/sp1-stereo-vision/downloads/sp1-software-1_0_1-src.tar.xz
+
+i think it would be nice to have these optimizations ported to opencv. however, there are some significant differences to the opencv method:
+- points in the produced point cloud are aligned to 16-byte boundaries, introducing 4 bytes of padding. but this could be changed using unaligned stores, with some performance penalties
+- the method only works for 16-bit unsigned disparity maps. opencv only works with 8-bit unsigned, 16-bit signed, 32-bit signed or 32-bit floating.
+- invalid disparities are assumed to have a large value (>=0xfff). opencv expects a small value.
+- it is possible to specify a minimum disparity value
+- all computations are performed with floats, rather than doubles.
+
+so, i'm not sure if its worth porting that to opencv. i guess at at least the 16-bit signed case could be covered, but the handling of invalid disparities is rather different.
+
+any suggestions?
+konstantin
+",major,minor
+runtime: don't do unnecessary loads on malloc fast path,"<pre>currently we load runtime.memstats.heap_alloc and runtime.memprofilerate on every
+malloc. both are not strictly necessary and bring 2 unnecessary cache lines into cache.
+
+here are proof-of-concept cls:
+<a href=""https://golang.org/cl/129810043/"">https://golang.org/cl/129810043/</a>
+<a href=""https://golang.org/cl/128100043/"">https://golang.org/cl/128100043/</a>
+
+ideally we trigger gc directly from mcacherefill, but it's not trivial to implement.</pre>
+",minor,major
+videocapture() doesn't work (blocks) when running in a separate thread,"##### system information (version)
+- opencv => 3.1.0_4 (via `brew install opencv3 --with-python3`)
+- os => osx yosemite
+- platform => python3.5.2
+##### detailed description
+
+when using `cv2.videocapture(0)` in a thread, it doesn't work, but it does work when running in the main thread. it doesn't raise an exception, merely blocks until the programme exits.
+##### steps to reproduce
+
+using this script as a minimum viable example:
+
+``` python
+from threading import thread
+import cv2
+from time import sleep
+from pil import image
+
+def main():
+    print(""running in main thread"")
+    cam = cv2.videocapture(0)
+    print(""starting capture"")
+    sleep(2)
+    _, img = cam.read()
+    print(""acquired image"")
+    sleep(2)
+    image.fromarray(img).save(""tmp.jpg"", ""jpeg"")
+    cam.release()
+    print(""end process"")
+
+th = thread(target=main, name=""testing thread"")
+th.daemon = true
+th.start()
+th.join()
+```
+
+when this is run on osx yosemite, the only thing that gets printed out is ""running in main thread"". the rest of the `main()` function does not get executed. stepping into `videocapture()` with `pdb` just hangs as well. if the `main()` function is run normally (without threading) then it works fine.
+
+n.b. i originally had this working on macos sierra, which i had to install via `brew install opencv3 --with-python3 --head` (note the extra `--head` option) as installing it without `--head` wouldn't work on sierra. similarly, installing _with_ `--head` does _not_ work on osx yosemite.
+",major,minor
+it should be possible to override the dsymutil path,"the compiler currently invokes `dsymutil` directly, but a cross compilation toolchain may have it located under a different name like `x86_64-apple-darwin15-dsymutil`. there should be a compiler flag to override it like there is for the linker.
+",minor,major
+rustdoc: do something about reexported items,"**update:** this issue was first filed with the title ""rustdoc shouldn’t document reexports separately"", but that might not be the desired solution.
+
+---
+
+for example, the `strslice` trait is currently documented in three different places:
+
+http://doc.rust-lang.org/std/str/trait.strslice.html
+http://doc.rust-lang.org/collections/str/trait.strslice.html
+http://doc.rust-lang.org/core/str/trait.strslice.html
+
+it really is the same trait, but in the documentation they appear as distinct.
+
+i think that, when module `a` contains a `pub use b::c;` statement:
+- rustdoc should not create a new documentation page for `a::c`
+- instead, the documentation for `a` should link to the original documentation for `b::c`
+- in addition, the documentation for `b::c` should list all the known name it is re-exported as (in this case `a::c`).
+
+it gets more complicated when `a` and `b` are not in the same source repository, but imo still worth pursuing. sphinx does [support cross-references to other repos](http://sphinx-doc.org/ext/intersphinx.html).
+",major,minor
+tour: search in table of contents,"context: http://tour.golang.org/*
+
+the tour is a good reference for quick examples, when you are not familiar with go yet. it would be useful to be able to search in the contents of the tour. at least in its table of contents.
+",minor,major
+cmd/gofmt: anonymous field could be placed in the 2nd column of a struct,"### what version of go are you using (`go version`)?
+
+`go version go1.7 windows/amd64`
+### what operating system and processor architecture are you using (`go env`)?
+
+```
+set goarch=amd64
+set gobin=
+set goexe=.exe
+set gohostarch=amd64
+set gohostos=windows
+set goos=windows
+set gopath=c:\projects\go
+set gorace=
+set goroot=c:\go
+set gotooldir=c:\go\pkg\tool\windows_amd64
+set cc=gcc
+set gogccflags=-m64 -mthreads -fmessage-length=0
+set cxx=g++
+set cgo_enabled=1
+```
+### what did you do?
+
+![gofmt1](https://cloud.githubusercontent.com/assets/142650/18272045/79bf1ae6-742d-11e6-9ad4-ff7441d43445.png)
+### what did you expect to see?
+
+![gofmt2](https://cloud.githubusercontent.com/assets/142650/18272088/c36cd5d4-742d-11e6-9a4e-5ba93a088c6b.png)
+### what did you see instead?
+
+![gofmt1](https://cloud.githubusercontent.com/assets/142650/18272045/79bf1ae6-742d-11e6-9ad4-ff7441d43445.png)
+",major,minor
+use readonlyarray<t> in type declarations,"we can't really use `readonlyarray` anywhere else until we fix the type declarations.
+this is technically a breaking change, but people shouldn't have been modifying arrays after creation anyway.",minor,major
+you don't know js: types & grammar chapter 2: values,"the text: 'addition and subtraction cannot result in a negative zero' is not absolute. an edge case is with -0 + -0 = -0. ditto for the subtraction case.
+
+the es5 spec contains this rule: https://es5.github.io/#x11.6.3
+
+",minor,major
+text fields should automatically support previous and next buttons in ios keyboard to tab between fields.,"## steps to reproduce
+
+1. run the flutter gallery application on an iphone.
+2. select the ""text fields"" demo.
+3. click on any text field.
+4. notice the keyboard does not show previous and next arrows to tab between field.
+
+## logs
+
+n/a
+
+## flutter doctor
+```
+[✓] flutter (on mac os x 10.12.4 16e195, locale en-us, channel master)
+    • flutter at /users/?/development/flutter
+    • framework revision 767ab66c25 (32 hours ago), 2017-05-27 00:45:25 -0700
+    • engine revision 75c74dc463
+    • tools dart version 1.24.0-dev.3.0
+
+[✓] android toolchain - develop for android devices (android sdk 25.0.3)
+    • android sdk at /users/?/library/android/sdk
+    • platform android-25, build-tools 25.0.3
+    • android_home = /users/?/library/android/sdk
+    • java binary at: /applications/android studio.app/contents/jre/jdk/contents/home/bin/java
+    • java version: openjdk runtime environment (build 1.8.0_112-release-b06)
+
+[✓] ios toolchain - develop for ios devices (xcode 8.3.2)
+    • xcode at /applications/xcode.app/contents/developer
+    • xcode 8.3.2, build version 8e2002
+    • ios-deploy 1.9.1
+    • cocoapods version 1.2.1
+
+[✓] android studio (version 2.3)
+    • android studio at /applications/android studio.app/contents
+    • gradle version 3.2
+    • java version: openjdk runtime environment (build 1.8.0_112-release-b06)
+
+[✓] intellij idea community edition (version 2017.1.3)
+    • dart plugin version 171.4424.63
+    • flutter plugin version 13.1
+```",major,minor
+additional options for `editor.selectionhighlight` ,"- vscode version: 1.2.1
+- os version: os x 10.11.4
+
+having the current word highlighted is convenient, but too distracting when moving around and accidentally leaving the cursor on a keyword (e.g. `let .. in` in ocaml).
+turning it off, one has to fall back to search and lose the previous results.
+
+maybe it would make sense to introduce options to:
+1. only highlight if a whole word is selected (i.e. e.g. with a double click)
+2. only highlight non-keyword words
+3. only highlight identifiers
+",major,minor
+spec: go spec method expressions/values - tidy up,"by **xunfin**:
+
+<pre>as per note at golang nuts
+
+<a href=""https://groups.google.com/forum/#"">https://groups.google.com/forum/#</a>!topic/golang-nuts/6ltlymguas8
+
+the two sections <a href=""http://golang.org/ref/spec#method_expressions"">http://golang.org/ref/spec#method_expressions</a> and
+<a href=""http://golang.org/ref/spec#method_values"">http://golang.org/ref/spec#method_values</a> are a little verbose (much more than a full
+verticle screen each - in contrast to most/all other sections in spec) and maybe have
+too many examples.
+
+i suggested that stating
+
+ &quot;if t is a variable of type t and m(x) is in the method set of t then:
+
+  t.m(t,x) is the same as t.m(x)&quot;
+
+could help in clarifying (see original post)
+
+there is no issue with behaviour or specification - just length/clarity of text.</pre>
+",minor,major
+markneedslayout(will not affect size),"there are some situations where a render object knows that it needs layout but also knows that the layout will not change its size.  if the parent uses the this object's size in its layout, we can avoid marking the parent as needing layout.
+
+examples:
+- viewports in the new scrolling world
+- re-positioning positioned children in a stack
+
+/cc @hixie 
+",minor,major
+rsc.io/tmp/fieldtrack: update with new tests,"@ianlancetaylor internally committed a new regress test to fieldtrack_test for #16243.  rsc.io/tmp/fieldtrack should be updated with this test.
+
+(not a go project issue per se, but this seems like the safest place to make sure it's not forgotten about by time @rsc returns from leave.)
+",minor,major

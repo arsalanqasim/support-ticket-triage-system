@@ -5,7 +5,6 @@ Loads fine-tuned HuggingFace models from models/transformer/.
 """
 from __future__ import annotations
 
-import json
 from functools import lru_cache
 from pathlib import Path
 from typing import Any

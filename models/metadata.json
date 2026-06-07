@@ -1,0 +1,131 @@
+{
+  "category": {
+    "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\category_model.joblib",
+    "dataset": "dataset/dataset_13_labels.csv",
+    "labels": [
+      "bug",
+      "build_ci_cd",
+      "compatibility",
+      "documentation",
+      "feature_request",
+      "integration_api",
+      "maintenance_data",
+      "performance",
+      "question",
+      "security_access",
+      "setup_config",
+      "testing",
+      "ui_ux"
+    ],
+    "metrics": {
+      "macro_f1": 0.5950530840066939,
+      "micro_f1": 0.6740158134799007
+    },
+    "model_type": "TF-IDF + OneVsRest LogisticRegression",
+    "rows": 106909
+  },
+  "intent": {
+    "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\intent_model.joblib",
+    "dataset": "dataset/customer_support_tickets.csv",
+    "labels": [
+      "billing_inquiry",
+      "cancellation_request",
+      "product_inquiry",
+      "refund_request",
+      "technical_issue"
+    ],
+    "metrics": {
+      "accuracy": 0.2089728453364817,
+      "macro_f1": 0.2085833743346151
+    },
+    "model_type": "TF-IDF + LogisticRegression",
+    "rows": 8469
+  },
+  "priority": {
+    "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\priority_model.joblib",
+    "dataset": "dataset/customer_support_tickets.csv",
+    "labels": [
+      "critical",
+      "high",
+      "low",
+      "medium"
+    ],
+    "metrics": {
+      "accuracy": 0.25088547815820544,
+      "macro_f1": 0.2505902500281564
+    },
+    "model_type": "TF-IDF + LogisticRegression",
+    "rows": 8469
+  },
+  "transformer_category": {
+    "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\transformer\\category_final",
+    "dataset": "dataset/dataset_13_labels.csv",
+    "labels": [
+      "bug",
+      "build_ci_cd",
+      "compatibility",
+      "documentation",
+      "feature_request",
+      "integration_api",
+      "maintenance_data",
+      "performance",
+      "question",
+      "security_access",
+      "setup_config",
+      "testing",
+      "ui_ux"
+    ],
+    "metrics": {
+      "loss": 0.3595,
+      "macro_f1": 0.0,
+      "micro_f1": 0.0,
+      "runtime": 0.3582,
+      "samples_per_second": 279.189,
+      "steps_per_second": 11.168
+    },
+    "model_type": "DistilBERT fine-tuned (distilbert-base-uncased)",
+    "rows": 500
+  },
+  "transformer_intent": {
+    "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\transformer\\intent_final",
+    "dataset": "dataset/customer_support_tickets.csv",
+    "labels": [
+      "billing_inquiry",
+      "cancellation_request",
+      "product_inquiry",
+      "refund_request",
+      "technical_issue"
+    ],
+    "metrics": {
+      "accuracy": 0.2072,
+      "loss": 1.6094,
+      "macro_f1": 0.0687,
+      "runtime": 1.6609,
+      "samples_per_second": 1019.931,
+      "steps_per_second": 31.91
+    },
+    "model_type": "DistilBERT fine-tuned (distilbert-base-uncased)",
+    "rows": 8469
+  },
+  "transformer_priority": {
+    "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\transformer\\priority_final",
+    "dataset": "dataset/customer_support_tickets.csv",
+    "labels": [
+      "critical",
+      "high",
+      "low",
+      "medium"
+    ],
+    "metrics": {
+      "accuracy": 0.2473,
+      "loss": 1.387,
+      "macro_f1": 0.1195,
+      "runtime": 7.7935,
+      "samples_per_second": 217.36,
+      "steps_per_second": 6.801
+    },
+    "model_type": "DistilBERT fine-tuned (distilbert-base-uncased)",
+    "rows": 8469
+  },
+  "updated_at": "2026-05-19T10:39:35.342271+00:00"
+}
