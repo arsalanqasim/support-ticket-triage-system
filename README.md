@@ -44,36 +44,36 @@
 ┌──────────────────────────────────────────────────────────┐
 │                       TriageIQ                           │
 │                                                          │
-│  ┌─────────────┐   ┌──────────────────────────────────┐ │
-│  │  Web UI     │   │       REST API (FastAPI)          │ │
-│  │ (Streamlit) │   │  POST /predict                   │ │
-│  │             │   │  POST /predict/batch             │ │
-│  │ • Single    │   │  GET  /health                    │ │
-│  │ • Batch CSV │   │  Swagger UI: /docs               │ │
-│  │ • Analytics │   │  Auth: X-API-Key header          │ │
-│  └──────┬──────┘   └────────────┬─────────────────────┘ │
+│  ┌─────────────┐   ┌──────────────────────────────────┐  │
+│  │  Web UI     │   │       REST API (FastAPI)         │  │
+│  │ (Streamlit) │   │  POST /predict                   │  │
+│  │             │   │  POST /predict/batch             │  │
+│  │ • Single    │   │  GET  /health                    │  │
+│  │ • Batch CSV │   │  Swagger UI: /docs               │  │
+│  │ • Analytics │   │  Auth: X-API-Key header          │  │
+│  └──────┬──────┘   └────────────┬─────────────────────┘  │
 │         │                       │                        │
 │         └───────────┬───────────┘                        │
 │                     ▼                                    │
-│         ┌─────────────────────┐                         │
-│         │  Inference Layer    │                         │
-│         │  TriagePredictor    │                         │
-│         │  TransformerPredictor│                        │
-│         └──────────┬──────────┘                         │
+│         ┌──────────────────────┐                         │
+│         │  Inference Layer     │                         │
+│         │  TriagePredictor     │                         │
+│         │  TransformerPredictor│                         │
+│         └──────────┬───────────┘                         │
 │                    │                                     │
-│         ┌──────────┴──────────┐                         │
-│         │                     │                         │
-│  ┌──────▼──────┐   ┌──────────▼────────┐               │
-│  │ TF-IDF +    │   │  DistilBERT        │               │
-│  │ LogReg      │   │  (Fine-tuned)      │               │
-│  │ (Baseline)  │   │  Transformers      │               │
-│  └─────────────┘   └────────────────────┘               │
+│         ┌──────────┴──────────┐                          │
+│         │                     │                          │
+│  ┌──────▼──────┐   ┌──────────▼────────┐                 │ 
+│  │ TF-IDF +    │   │  DistilBERT       │                 │
+│  │ LogReg      │   │  (Fine-tuned)     │                 │
+│  │ (Baseline)  │   │  Transformers     │                 │
+│  └─────────────┘   └───────────────────┘                 │
 │                                                          │
-│         ┌──────────────────────────┐                    │
-│         │  MLflow Tracking         │                    │
-│         │  • Notebook experiments  │                    │
-│         │  • Live API inference    │                    │
-│         └──────────────────────────┘                    │
+│         ┌──────────────────────────┐                     │
+│         │  MLflow Tracking         │                     │
+│         │  • Notebook experiments  │                     │
+│         │  • Live API inference    │                     │
+│         └──────────────────────────┘                     │
 └──────────────────────────────────────────────────────────┘
 ```
 
