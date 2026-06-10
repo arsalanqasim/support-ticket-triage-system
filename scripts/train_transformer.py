@@ -172,7 +172,8 @@ def train_single_label(
                 "rows": len(df),
                 "labels": labels,
                 "metrics": {k: round(v, 4) for k, v in eval_metrics.items() if isinstance(v, float)},
-                "dataset": "dataset/customer_support_tickets.csv",
+                "dataset": "dataset/intent_dataset.csv",
+                "dataset_source": "Bitext Customer Support LLM Chatbot Training Dataset (27 intents)",
             }
         }
     )
@@ -265,6 +266,7 @@ def train_multi_label(
                 "labels": labels,
                 "metrics": {k: round(v, 4) for k, v in eval_metrics.items() if isinstance(v, float)},
                 "dataset": "dataset/dataset_13_labels.csv",
+                "dataset_source": "GitHub Issues (sharjeelyunus/github-issues-dataset)",
             }
         }
     )

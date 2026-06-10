@@ -60,5 +60,4 @@ Thumbs.db
 *.temp
 
 # Dataset (large files)
-dataset/dataset_13_labels.csv
-dataset/dataset_clean.csv
+dataset/

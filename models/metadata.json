@@ -2,6 +2,7 @@
   "category": {
     "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\category_model.joblib",
     "dataset": "dataset/dataset_13_labels.csv",
+    "dataset_source": "GitHub Issues (sharjeelyunus/github-issues-dataset)",
     "labels": [
       "bug",
       "build_ci_cd",
@@ -18,44 +19,43 @@
       "ui_ux"
     ],
     "metrics": {
-      "macro_f1": 0.5950530840066939,
-      "micro_f1": 0.6740158134799007
+      "macro_f1": 0.5977452697795226,
+      "micro_f1": 0.6752334718828992
     },
     "model_type": "TF-IDF + OneVsRest LogisticRegression",
     "rows": 106909
   },
   "intent": {
     "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\intent_model.joblib",
-    "dataset": "dataset/customer_support_tickets.csv",
+    "dataset": "dataset/intent_dataset.csv",
+    "dataset_source": "Bitext Customer Support LLM Chatbot Training Dataset (27 intents)",
     "labels": [
-      "billing_inquiry",
-      "cancellation_request",
-      "product_inquiry",
-      "refund_request",
-      "technical_issue"
+      "cancel_order",
+      "change_order",
+      "change_shipping_address"
     ],
     "metrics": {
-      "accuracy": 0.2089728453364817,
-      "macro_f1": 0.2085833743346151
+      "accuracy": 0.9875,
+      "macro_f1": 0.99164494142036
     },
     "model_type": "TF-IDF + LogisticRegression",
-    "rows": 8469
+    "rows": 2000
   },
   "priority": {
     "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\priority_model.joblib",
-    "dataset": "dataset/customer_support_tickets.csv",
+    "dataset": "dataset/priority_dataset.csv",
+    "dataset_source": "GitHub Issues severity labels (Critical\u2192critical, Major\u2192high, Minor\u2192low)",
     "labels": [
       "critical",
       "high",
-      "low",
-      "medium"
+      "low"
     ],
     "metrics": {
-      "accuracy": 0.25088547815820544,
-      "macro_f1": 0.2505902500281564
+      "accuracy": 0.58,
+      "macro_f1": 0.5368177762249499
     },
     "model_type": "TF-IDF + LogisticRegression",
-    "rows": 8469
+    "rows": 2000
   },
   "transformer_category": {
     "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\transformer\\category_final",
@@ -127,5 +127,5 @@
     "model_type": "DistilBERT fine-tuned (distilbert-base-uncased)",
     "rows": 8469
   },
-  "updated_at": "2026-05-19T10:39:35.342271+00:00"
+  "updated_at": "2026-06-10T18:40:30.216726+00:00"
 }

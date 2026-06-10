@@ -83,12 +83,15 @@
 
 | Target | Model | Dataset | Rows | Metric | Score |
 |--------|-------|---------|------|--------|-------|
-| Category | TF-IDF + OneVsRest LogReg | GitHub Issues | 106,909 | Micro F1 | **0.67** |
-| Category | TF-IDF + OneVsRest LogReg | GitHub Issues | 106,909 | Macro F1 | **0.60** |
-| Priority | TF-IDF + LogReg | Customer Support | 8,469 | Accuracy | **0.84** |
-| Priority | TF-IDF + LogReg | Customer Support | 8,469 | Macro F1 | **0.83** |
-| Intent | TF-IDF + LogReg | Customer Support | 8,469 | Accuracy | **0.99** |
-| Intent | TF-IDF + LogReg | Customer Support | 8,469 | Macro F1 | **0.99** |
+| Category | TF-IDF + OneVsRest LogReg | GitHub Issues (13 labels) | 106,909 | Micro F1 | **~0.67** |
+| Category | TF-IDF + OneVsRest LogReg | GitHub Issues (13 labels) | 106,909 | Macro F1 | **~0.60** |
+| Priority | TF-IDF + LogReg | GitHub Issues severity (critical/high/low) | 106,909 | Accuracy | **~0.72** |
+| Priority | TF-IDF + LogReg | GitHub Issues severity (critical/high/low) | 106,909 | Macro F1 | **~0.60** |
+| Intent | TF-IDF + LogReg | Bitext Customer Support (27 intents) | 26,872 | Accuracy | **~0.92** |
+| Intent | TF-IDF + LogReg | Bitext Customer Support (27 intents) | 26,872 | Macro F1 | **~0.92** |
+
+> **Data sources:** GitHub Issues severity labels from `sharjeelyunus/github-issues-dataset` (real human-assigned);  
+> Intent utterances from `bitext/Bitext-customer-support-llm-chatbot-training-dataset` (real customer support text, 27 classes).
 
 ---
 

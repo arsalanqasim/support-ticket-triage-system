@@ -17,8 +17,19 @@ ARTIFACT_DIR = Path(MODEL_DIR) if MODEL_DIR else PROJECT_ROOT / "models"
 DATASET_DIR = PROJECT_ROOT / "dataset"
 
 # Dataset paths
+# Category: GitHub Issues (multi-label, 13 classes, ~107K rows)
 CATEGORY_DATASET = DATASET_DIR / "dataset_13_labels.csv"
-CUSTOMER_SUPPORT_DATASET = DATASET_DIR / "customer_support_tickets.csv"
+
+# Priority: GitHub Issues severity labels mapped to critical/high/low (~107K rows)
+# Source: dataset_clean.csv → extracted during dataset acquisition
+PRIORITY_DATASET = DATASET_DIR / "priority_dataset.csv"
+
+# Intent: Bitext Customer Support dataset (27 fine-grained intent classes, ~27K rows)
+# Source: bitext/Bitext-customer-support-llm-chatbot-training-dataset on HuggingFace
+INTENT_DATASET = DATASET_DIR / "intent_dataset.csv"
+
+# Deprecated — kept for backward compatibility only; do not use in new code
+CUSTOMER_SUPPORT_DATASET = INTENT_DATASET
 
 # Model artifact paths
 CATEGORY_MODEL_PATH = ARTIFACT_DIR / "category_model.joblib"
