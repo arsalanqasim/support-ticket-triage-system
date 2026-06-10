@@ -32,14 +32,38 @@
     "labels": [
       "cancel_order",
       "change_order",
-      "change_shipping_address"
+      "change_shipping_address",
+      "check_cancellation_fee",
+      "check_invoice",
+      "check_payment_methods",
+      "check_refund_policy",
+      "complaint",
+      "contact_customer_service",
+      "contact_human_agent",
+      "create_account",
+      "delete_account",
+      "delivery_options",
+      "delivery_period",
+      "edit_account",
+      "get_invoice",
+      "get_refund",
+      "newsletter_subscription",
+      "payment_issue",
+      "place_order",
+      "recover_password",
+      "registration_problems",
+      "review",
+      "set_up_shipping_address",
+      "switch_account",
+      "track_order",
+      "track_refund"
     ],
     "metrics": {
-      "accuracy": 0.9875,
-      "macro_f1": 0.99164494142036
+      "accuracy": 0.9787906976744186,
+      "macro_f1": 0.978785924669647
     },
     "model_type": "TF-IDF + LogisticRegression",
-    "rows": 2000
+    "rows": 26872
   },
   "priority": {
     "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\priority_model.joblib",
@@ -51,11 +75,11 @@
       "low"
     ],
     "metrics": {
-      "accuracy": 0.58,
-      "macro_f1": 0.5368177762249499
+      "accuracy": 0.6868861659339631,
+      "macro_f1": 0.6149179416865339
     },
     "model_type": "TF-IDF + LogisticRegression",
-    "rows": 2000
+    "rows": 106909
   },
   "transformer_category": {
     "artifact": "C:\\Users\\arsal\\Desktop\\support-ticket-triage-system\\models\\transformer\\category_final",
@@ -127,5 +151,5 @@
     "model_type": "DistilBERT fine-tuned (distilbert-base-uncased)",
     "rows": 8469
   },
-  "updated_at": "2026-06-10T18:40:30.216726+00:00"
+  "updated_at": "2026-06-10T18:42:25.284490+00:00"
 }

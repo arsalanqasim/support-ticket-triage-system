@@ -142,7 +142,9 @@ try:
     df_out = df_intent[[text_col, intent_col]].rename(
         columns={text_col: "text", intent_col: "intent"}
     )
-    df_out = df_out[df_out["text"].str.len() > 0].reset_index(drop=True)
+    df_out = df_out[df_out["text"].str.strip().str.len() > 0].reset_index(drop=True)
+    # Shuffle rows so any nrows= slice covers all classes uniformly
+    df_out = df_out.sample(frac=1, random_state=42).reset_index(drop=True)
     df_out.to_csv(intent_out, index=False)
     print(f"  Saved -> {intent_out} ({intent_out.stat().st_size / 1e6:.1f} MB)")
     del df_intent, df_out
